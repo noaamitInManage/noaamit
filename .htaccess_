@@ -1,0 +1,70 @@
+IndexIgnore *
+#Options -Indexes 
+
+# Various rewrite rules
+<IfModule mod_rewrite.c>
+
+	Options +FollowSymlinks
+
+	RewriteEngine on
+	RewriteRule sitemap.xml _static/sitemap.xml
+	#RewriteRule index.html index.php
+	RewriteCond %{REMOTE_ADDR} !62\.219\.212\.139
+    RewriteCond %{REQUEST_URI} ^\/dev\/doc\/(.*)$
+    RewriteRule ^(.*)$ https://%{SERVER_NAME} [R,L]
+
+	RewriteCond %{REMOTE_ADDR} !62\.219\.212\.139
+	RewriteCond %{REQUEST_URI} ^\/.gitignore(.*)$
+	RewriteRule ^(.*)$ https://%{SERVER_NAME} [R,L]
+
+	RewriteCond %{REMOTE_ADDR} !62\.219\.212\.139
+	RewriteCond %{REQUEST_URI} ^\/memcached\/(.*)$
+	RewriteRule ^(.*)$ http://%{SERVER_NAME} [R,L]
+
+	# Rewrite indexs of the form 'index.php?q=x':
+    RewriteRule ^api/(.*)$ /_api/index.php?$1 [L,QSA]    RewriteRule ^api/(.*)$ /_api/index.php?$1 [L,QSA]
+    RewriteCond %{HTTP_HOST} !^www\.
+    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+	
+	RewriteRule ^salat2/captcha.png salat2/_inc/login.captcha.php [L,NC]		
+	RewriteRule ^p/(.*)$ /_pass/index.php?$1 [L,QSA]
+	RewriteRule ^a/(.*)$ /_agents/index.php?$1 [L,QSA]
+	RewriteCond $1 !^_media
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php?qs=$1 [L,QSA]
+		
+</IfModule>
+
+# PHP Error Handling Flags
+#php_value error_reporting 0
+#php_flag display_errors off
+#php_flag magic_quotes_gpc off
+#php_value magic_quotes_gpc off
+#php_flag magic_quotes_runtime off
+#php_value magic_quotes_runtime off
+
+<IfModule mod_deflate.c>
+	SetOutputFilter DEFLATE
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/xml
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE application/rss+xml
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection: "1; mode=block"
+</IfModule>
+
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|ttf|eot|woff|svg)$">
+    Header set Cache-Control "max-age=290304000, public"
+</FilesMatch>
+#SecFilterEngine Off   changed 20.5.07 after Houston fixed the 500 error
+<IfModule mod_security.c>
+ 	SecFilterEngine Off
+ 	SecFilterScanPOST Off
+</IfModule>

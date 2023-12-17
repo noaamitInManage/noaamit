@@ -1,0 +1,323 @@
+
+/* GENERAL */
+
+html,body,table,input,select,div,span,.general
+{
+	font-family: arial;
+	font-size: 9pt;
+}
+
+.pointer{
+	cursor: pointer;
+}
+
+.hidden{
+	display: none;
+}
+
+.button
+{
+	font-size: 11pt;
+	color: white;
+	background-color: #512A7E;
+	border: 0pt;
+	padding: 2px;
+}
+
+.textbox
+{
+	font-size: 11pt;
+	color: #CE114C;
+	border: solid 1pt #512A7E;
+}
+
+.error
+{
+	font-size: 10pt;
+	color: #FF4001;
+	font-weight: bold;
+}
+
+/* TOP */
+
+.top_body
+{
+	background-color: white;
+	background-image: url('images/logobig.gif');
+}
+
+.top_title1
+{
+	font-size: 12pt;
+	color: #CE114C;
+	font-weight: bold;
+}
+
+.top_title2
+{
+	font-size: 12pt;
+	color: #512A7E;
+	font-weight: bold;
+}
+
+/* MAIN */
+
+.maindiv
+{
+	vertical-align: top;
+	text-align: center;
+	align: center;
+	width: 100%;
+}
+
+.table_details
+{
+	border: solid 1pt #6E2525;
+}
+
+.maintitle
+{
+	font-size: 15pt;
+	color: #512A7E;
+	font-weight: bold;
+}
+
+.mainSep{
+	color: #512A7E;
+	font-size: 18px;
+}
+
+.mover
+{
+	background-color: #657AE4;
+	color: #FFFFFF;
+}
+
+.mout
+{
+	background-color: #FFFFFF;
+	color: #2660A2;
+}
+
+A.mainlink
+{
+	font-size: 10pt;
+	color: #0573C7;
+	vertical-align: middle;
+	text-decoration: none;
+}
+
+A:hover.mainlink
+{
+	font-size: 10pt;
+	color: #8CB7E7;
+	vertical-align: middle;
+	text-decoration: underline;
+}
+
+A.mainlinksel
+{
+	font-size: 10pt;
+	color: #2660A2;
+	vertical-align: middle;
+	border: 1 0 1 0;
+	font-weight:bold;
+}
+
+A:hover.mainlinksel
+{
+	font-size: 10pt;
+	color: #2660A2;
+	vertical-align: middle;
+	text-decoration: underline;
+	font-weight:bold;
+}
+
+/* MENU */
+
+.menutitle
+{
+	font-size: 12pt;
+	color: #6E2525;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.menuoptions
+{
+	font-size: 10pt;
+	color: #2660A2;
+	border: solid 1px #2660A2;
+	width: 150px;
+}
+
+.menubutton
+{
+	font-size: 10pt;
+	color: #2660A2;
+	background-color: #8CB7E7;
+	border: 0px;
+	padding: 1px;
+	cursor: pointer;
+}
+
+.menubuttonselected
+{
+	font-size: 10pt;
+	color: #FFFFFF;
+	background-color: #2660A2;
+	border: 0px;
+	padding: 1px;
+	cursor: pointer;
+}
+
+.menuhelpbutton
+{
+	font-size: 9pt;
+	color: #6E2525;
+	background-color: #AAA03B;
+	border: 0px;
+	padding: 1px;
+	cursor: pointer;
+}
+
+.treetext
+{
+	font-size: 10pt;
+	color: #6E2525;
+	vertical-align: middle;
+}
+
+A:hover.treelink
+{
+	font-size: 10pt;
+	color: #6E2525;
+	vertical-align: middle;
+	text-decoration: underline;
+}
+
+A.treelink
+{
+	font-size: 10pt;
+	color: #6E2525;
+	vertical-align: middle;
+	text-decoration: none;
+}
+
+/* HELP */
+
+.helpdiv
+{
+
+}
+
+/* ----------------------------------------------------------------------------------------- */
+
+/* SITE */
+
+.menuOver
+{
+	font-size: 15px;
+	color: #FF73AD;
+	background-color: white;
+	cursor: pointer;
+}
+
+.menuOut_Strong
+{
+	font-size: 15px;
+	color: white;
+	background-color: #FF73AD;
+	cursor: pointer;
+}
+
+.menuOut_Lite
+{
+	font-size: 15px;
+	color: white;
+	background-color: #FF8EBD;
+	cursor: pointer;
+}
+
+A.blacklink
+{
+	color: #3B3B3B;
+	font-size: 8pt;
+	text-decoration: underline;
+}
+
+A:hover.blacklink
+{
+	color: #3B3B3B;
+	font-size: 8pt;
+	text-decoration: none;
+}
+
+A.graylink
+{
+	color: #BBBBBB;
+	font-weight: bold;
+	font-size: 9pt;
+	text-decoration: none;
+}
+
+A:hover.graylink
+{
+	color: #BBBBBB;
+	font-weight: bold;
+	font-size: 9pt;
+	text-decoration: underline;
+}
+
+A.pinklink
+{
+	color: #FF4D97;
+	font-weight: bold;
+	font-size: 9pt;
+	text-decoration: none;
+}
+
+A:hover.pinklink
+{
+	color: #FF4D97;
+	font-weight: bold;
+	font-size: 9pt;
+	text-decoration: underline;
+}
+
+.blacktext
+{
+	color: #3B3B3B;
+	font-size: 8pt;
+}
+
+.graylitetext
+{
+	color: #BBBBBB;
+	font-size: 8pt;
+}
+
+.graytext
+{
+	color: #BBBBBB;
+	font-weight: bold;
+	font-size: 9pt;
+}
+
+.pinktext
+{
+	color: #FF4D97;
+	font-weight: bold;
+	font-size: 9pt;
+}
+
+.contactgreen
+{
+	color: #A2CD53;
+	font-weight: bold;
+	font-size: 11pt;
+}
+
+.gallery_media_items object {
+	margin-bottom: 10px;
+}

@@ -1,0 +1,4 @@
+[21-Mar-2012 09:53:38 UTC] PHP Fatal error:  Call to undefined function imageftbbox() in /home/citywall/public_html/resource/EasyCaptcha/php-captcha.inc.php on line 308
+[21-Mar-2012 09:53:51 UTC] PHP Fatal error:  Call to undefined function imageftbbox() in /home/citywall/public_html/resource/EasyCaptcha/php-captcha.inc.php on line 308
+[21-Mar-2012 09:55:20 UTC] PHP Fatal error:  Call to undefined function imageftbbox() in /home/citywall/public_html/resource/EasyCaptcha/php-captcha.inc.php on line 308
+[21-Mar-2012 09:55:41 UTC] PHP Fatal error:  Call to undefined function imageftbbox() in /home/citywall/public_html/resource/EasyCaptcha/php-captcha.inc.php on line 308

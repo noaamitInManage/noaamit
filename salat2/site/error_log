@@ -1,0 +1,8 @@
+[22-Aug-2017 09:47:11 UTC] PHP Parse error:  syntax error, unexpected 'BTN_DEL' (T_STRING) in /home/genieinmanage/public_html/salat2/site/translations.php on line 487
+[22-Aug-2017 09:47:15 UTC] PHP Parse error:  syntax error, unexpected 'BTN_DEL' (T_STRING) in /home/genieinmanage/public_html/salat2/site/translations.php on line 487
+[22-Aug-2017 12:25:34 UTC] PHP Parse error:  syntax error, unexpected 'BTN_DEL' (T_STRING) in /home/genieinmanage/public_html/salat2/site/translations.php on line 490
+[22-Aug-2017 12:25:40 UTC] PHP Parse error:  syntax error, unexpected 'BTN_DEL' (T_STRING) in /home/genieinmanage/public_html/salat2/site/translations.php on line 490
+[23-Aug-2017 15:45:25 Asia/Jerusalem] PHP Parse error:  syntax error, unexpected 'BTN_DEL' (T_STRING) in /home/salatinmanage/public_html/salat2/site/translations.php on line 490
+[23-Aug-2017 15:45:29 Asia/Jerusalem] PHP Parse error:  syntax error, unexpected 'BTN_DEL' (T_STRING) in /home/salatinmanage/public_html/salat2/site/translations.php on line 490
+[23-Aug-2017 15:45:58 Asia/Jerusalem] PHP Parse error:  syntax error, unexpected 'BTN_DEL' (T_STRING) in /home/salatinmanage/public_html/salat2/site/translations.php on line 490
+[23-Aug-2017 15:51:56 Asia/Jerusalem] PHP Parse error:  syntax error, unexpected end of file, expecting variable (T_VARIABLE) or ${ (T_DOLLAR_OPEN_CURLY_BRACES) or {$ (T_CURLY_OPEN) in /home/salatinmanage/public_html/salat2/site/translations.php on line 26

@@ -1,0 +1,17 @@
+/*
+**
+**
+*/
+.searchingGrayBar{ left:-445px; }
+
+.tabbar {
+    background:url(/_media/images/grayBarServices.png) 0 0 no-repeat transparent !important;
+    height: 25px;
+    width:201px;
+    padding:0 10px;
+    line-height:25px;
+    border:0 none !important;
+    outline:0 none !important;
+}
+
+#tabs_container li > div.tab_bar{ background:url(/_media/images/ieGrayBox.png) 0 0 no-repeat transparent !important; height:25px; padding:0 4px; margin:3px auto 0; border:0 none !important; outline:0 none !important; }

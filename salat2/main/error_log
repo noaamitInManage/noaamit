@@ -1,0 +1,4 @@
+[27-Feb-2019 15:27:30 UTC] PHP Fatal error:  Uncaught Error: Class 'configManager' not found in /home/salatinmanage/public_html/salat2/main/opcache.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/salatinmanage/public_html/salat2/main/opcache.php on line 5

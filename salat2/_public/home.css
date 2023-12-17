@@ -1,0 +1,73 @@
+
+
+.pointer{
+	cursor: pointer;
+}
+		td.links,a.links:visited{
+			font-family:Verdana;
+			font-size:8pt;
+			color:#808285;
+			text-decoration:none;
+			}
+		td.links,a.links:hover{
+			font-family:Verdana;
+			font-size:8pt;
+			color:#808285;
+			text-decoration:underline;
+		}
+		td.links,a.links:link{
+			font-family:Verdana;
+			font-size:8pt;
+			color:#808285;
+			text-decoration:none;
+		}
+		
+		input.searchinput{
+			border:solid;
+			font-family:Verdana;
+			border-width:1pt;
+			border-color:#808285;
+			height:11pt;
+		}
+		div.title,td.title,a.title:link{
+			color:#A80055;
+			font-family:Verdana;
+			font-weight:bold;
+			font-size:8pt;
+		}
+		td.desc{
+			font-family:Verdana;
+			color:#938793;
+			font-size:8pt;
+		}
+		a:visited,a:link{
+			font-family:Verdana;
+			color:#4E8AC6;
+			font-size:10pt;
+		}
+		td.leftbarlinks{
+			color:#A80055;
+			font-family:Verdana;
+			font-size:9pt;
+			}
+		tr{
+			text-align:<?=$align?>;
+		}
+		td.toptitle{
+			color:#A80055;
+			font-family:Verdana;
+			font-weight:bold;
+			font-size:<?=7+$fontSize//see lang.inc.php for explains?>pt;
+		}
+		a.innerlinks:visited{
+			font-family:Verdana;
+			color:#4E8AC6 ;
+			font-size:11px;
+		}
+		a.floating:visited,a.floating:link{
+			font-family:Verdana;
+			color:#A2064F ;
+			font-size:<?=8+$fontSize//see lang.inc.php for explains?>pt;
+			font-weight:normal;
+		}
+		

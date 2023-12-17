@@ -1,0 +1,67 @@
+/*
+ * style fixes for IE7 CityWall - Jan 2011, InManage LTD.
+ */
+/*#tabs_container.box	{ height:440px; }*/
+
+/* for ads.mdl.php 
+#radio_img_box_ul_1 li{position:relative;top:-320px;}
+#radio_img_box_ul_2 li{position:relative;top:-320px;}
+#radio_img_box_ul_3 li{position:relative;top:-317px;}
+*/
+
+td.li-menu-popup{  padding-top:0; }
+
+
+/* update profile page */
+#selectUserList > li > img { margin-left:0; }
+#selectUserList > li > span{ width:20px; }
+.tabsBubble > span{ margin:0; }
+.amntPill{ /*width:24px;*/ }
+
+.searchingUserPic{ float:right; }
+.serchingBoxText{ float:left; }
+
+.searchingGrayBar{ background:url(/_media/images/ieGrayBox.png) 0 0 no-repeat; height:15px; left:0; line-height:15px; padding:5px 4px; position:absolute; top:0; width:144px; }
+#tabs_container li > div.tab_bar{ background:url(/_media/images/ieGrayBox.png) 0 0 no-repeat transparent; height:25px; padding:0 4px; margin:3px auto 0; border:0 none; outline:0 none; }
+
+.tabbar{
+    background:url(/_media/images/grayBarServices.png) 0 0 no-repeat;
+    height: 25px;
+    width:201px;
+    padding:0 10px;
+    line-height:25px;
+    border:0 none;
+    outline:0 none;
+}
+
+#profileOwner, #profileLogoWrapper, #profileUserWrapper{ float:right; }
+
+.comboSelect.topBarSelect{  z-index:2147483647; margin-right:12px; }
+.comboSelect.topBarSelect ul{ right:0; }
+
+
+#profileOwner{ margin-top:45px; }
+
+.adCheckBoxHolder > input{ margin:0; }
+
+#header{ z-index:2147483600; }
+#left_col{ z-index:2147483000; }
+.notiSemiLayerWrapper{ z-index:2147483600; }
+#fbSidebarWrapper{ position:relative; z-index:2147483600; }
+#gallery{ z-index:0; }
+
+.tabsNerrow .wall-info{ width:489px; }
+
+#adLayerRegFile{ margin-right:0; }
+#ulUserPicArea{ float:left; }
+
+#loginLayerWrapper > div.content{ position:relative; z-index:10; }
+#loginLayerWrapper > div.bottom{ position:relative; z-index:0; }
+#loginTable input{ vertical-align:middle; }
+
+.signUpAvatar{ float:right; }
+#uploadifyImageWrapperUploader{ float:left; }
+
+#contactPopupWrapper > div.content table{ margin-right:24px; }
+
+.comboSelect.csPush span{ float:left; }

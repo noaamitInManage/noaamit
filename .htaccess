@@ -1,0 +1,113 @@
+IndexIgnore *
+Options -Indexes
+
+<RequireAll>
+    Require ip 207.232.22.164
+</RequireAll>
+
+# Various rewrite rules
+<IfModule mod_rewrite.c>
+
+	Options +FollowSymlinks
+
+	RewriteEngine on
+
+	RewriteCond %{REQUEST_URI} !^\/healthcheck.php$
+	RewriteCond %{HTTP:X-Forwarded-Proto} !https
+	RewriteCond %{HTTPS} off
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+	
+
+#	RewriteCond %{HTTP:X-Forwarded-Proto} =http
+#	RewriteRule . https://%{HTTP:Host}%{REQUEST_URI} [L,R=permanent]
+	
+#	RewriteCond %{HTTP_X_FORWARDED_PORT} 80
+#        RewriteRule ^(.*)$ https://%{SERVER_NAME}/$1 [L,R]
+
+    #block dot path's
+    RewriteCond %{REMOTE_ADDR} !62\.219\.212\.139
+    RewriteCond %{REMOTE_ADDR} !207\.232\.22\.164
+    RewriteRule (^\.|/\.)(git|ssh|bash|idea) - [F]
+
+	RewriteRule sitemap.xml _static/sitemap.xml
+	#RewriteRule index.html index.php
+	RewriteCond %{REMOTE_ADDR} !62\.219\.212\.139
+    RewriteCond %{REQUEST_URI} ^\/dev\/doc\/(.*)$
+    RewriteRule ^(.*)$ https://%{SERVER_NAME} [R,L]
+
+	RewriteCond %{REMOTE_ADDR} !62\.219\.212\.139
+	RewriteCond %{REQUEST_URI} ^\/.gitignore(.*)$
+	RewriteRule ^(.*)$ https://%{SERVER_NAME} [R,L]
+
+	RewriteCond %{REMOTE_ADDR} !62\.219\.212\.139
+	RewriteCond %{REQUEST_URI} ^\/memcached\/(.*)$
+	RewriteRule ^(.*)$ https://%{SERVER_NAME} [R,L]
+
+	# Rewrite indexs of the form 'index.php?q=x':
+    RewriteRule error_log$  https://%{SERVER_NAME} [R,L]
+
+    RewriteRule ^api/(.*)$ /_api/index.php?$1 [L,QSA]    RewriteRule ^api/(.*)$ /_api/index.php?$1 [L,QSA]
+    RewriteRule ^salesforce/(.*)$ /_salesforce/index.php?$1 [L,QSA]    RewriteRule ^salesforce/(.*)$ /_salesforce/index.php?$1 [L,QSA]
+    RewriteRule ^website_api/(.*)$ /_website_api/index.php?$1 [L,QSA]    RewriteRule ^website_api/(.*)$ /_website_api/index.php?$1 [L,QSA]
+#    RewriteCond %{HTTP_HOST} !^www\.
+#    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+	RewriteRule ^salat2/captcha.png salat2/_inc/login.captcha.php [L,NC]
+	RewriteRule ^p/(.*)$ /_pass/index.php?$1 [L,QSA]
+	RewriteRule ^a/(.*)$ /_agents/index.php?$1 [L,QSA]
+	RewriteCond $1 !^_media
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php?qs=$1 [L,QSA]
+
+</IfModule>
+<FilesMatch "composer.json">
+	Order deny,allow
+    Deny from all
+	Allow from 207.232.22.164
+</FilesMatch>
+# PHP Error Handling Flags
+#php_value error_reporting 0
+#php_flag display_errors off
+#php_flag magic_quotes_gpc off
+#php_value magic_quotes_gpc off
+#php_flag magic_quotes_runtime off
+#php_value magic_quotes_runtime off
+
+<IfModule mod_deflate.c>
+	SetOutputFilter DEFLATE
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/xml
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE application/rss+xml
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE application/json
+	AddOutputFilterByType DEFLATE application/json
+	AddOutputFilterByType DEFLATE application/ld+json
+	AddOutputFilterByType DEFLATE application/schema+json
+	AddOutputFilterByType DEFLATE application/x-web-app-manifest+json
+	AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection: "1; mode=block"
+</IfModule>
+
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|ttf|eot|woff|svg)$">
+    Header set Cache-Control "max-age=290304000, public"
+</FilesMatch>
+#SecFilterEngine Off   changed 20.5.07 after Houston fixed the 500 error
+<IfModule mod_security.c>
+ 	SecFilterEngine Off
+ 	SecFilterScanPOST Off
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php73” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php73 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

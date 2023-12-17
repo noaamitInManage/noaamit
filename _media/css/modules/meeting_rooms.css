@@ -1,0 +1,1947 @@
+    @charset "utf-8";
+
+    /**
+     *
+     *   /$$$$$$                                 /$$$$$$  /$$ /$$       /$$
+     *  /$$__  $$                               /$$__  $$|__/| $$      | $$
+     * | $$  \__/  /$$$$$$   /$$$$$$   /$$$$$$ | $$  \__/ /$$| $$  /$$$$$$$
+     * | $$ /$$$$ |____  $$ /$$__  $$ /$$__  $$| $$$$    | $$| $$ /$$__  $$
+     * | $$|_  $$  /$$$$$$$| $$  \__/| $$$$$$$$| $$_/    | $$| $$| $$  | $$
+     * | $$  \ $$ /$$__  $$| $$      | $$_____/| $$      | $$| $$| $$  | $$
+     * |  $$$$$$/|  $$$$$$$| $$      |  $$$$$$$| $$      | $$| $$|  $$$$$$$
+     *  \______/  \_______/|__/       \_______/|__/      |__/|__/ \_______/
+     *
+     * @Author Mike
+     * @Copyright 2010-2017
+     *
+     * ********************************************************************************
+     * **              -= YOU MAY NOT REMOVE OR CHANGE THIS NOTICE =-                 *
+     * ** --------------------------------------------------------------------------- *
+     * **  CSS
+     * **  Create:
+     * **  Developed by:  Mike <Mike@inmanage.net>                                    *
+     * ********************************************************************************
+     */
+
+    /**
+     * assign file;
+     */
+
+    /**-------------------------------------
+        Import
+    --------------------------------------**/
+
+    @font-face {
+        font-family : "ProximaNova Regular";
+        src         : url("/_media/fonts/proximanova-reg-webfont.eot");
+        src         : url("/_media/fonts/proximanova-reg-webfont.eot?#iefix") format("embedded-opentype"),
+                      url("/_media/fonts/proximanova-reg-webfont.woff") format("woff"),
+                      url("/_media/fonts/proximanova-reg-webfont.ttf") format("truetype");
+        font-weight : normal;
+        font-style  : normal;
+    }
+
+    @font-face {
+        font-family : "ProximaNova Bold";
+        src         : url("/_media/fonts/proximanova-bold-webfont.eot");
+        src         : url("/_media/fonts/proximanova-bold-webfont.eot?#iefix") format("embedded-opentype"),
+                      url("/_media/fonts/proximanova-bold-webfont.woff") format("woff"),
+                      url("/_media/fonts/proximanova-bold-webfont.ttf") format("truetype");
+        font-weight : normal;
+        font-style  : normal;
+    }
+
+    @font-face {
+        font-family : "ProximaNova Light";
+        src         : url("/_media/fonts/proximanova-light-webfont.eot");
+        src         : url("/_media/fonts/proximanova-light-webfont.eot?#iefix") format("embedded-opentype"),
+                      url("/_media/fonts/proximanova-light-webfont.woff") format("woff"),
+                      url("/_media/fonts/proximanova-light-webfont.ttf") format("truetype");
+        font-weight : normal;
+        font-style  : normal;
+    }
+
+    @font-face {
+        font-family : "Proxima Nova Condensed";
+        src         : url("/_media/fonts/proxima-nova-condensed-regular.woff") format("woff");
+        font-weight : normal;
+        font-style  : normal;
+    }
+
+    @font-face {
+        font-family : "Proxima Nova cond bold";
+        src         : url("/_media/fonts/proximanova-cond-bold.otf");
+    }
+
+    /**-------------------------------------
+        General
+    --------------------------------------**/
+
+    html, body, .app {
+        height : 100%;
+    }
+
+    body {
+        margin     : 0;
+        min-width  : 1024px;
+        min-height : 768px;
+
+        font-family: "ProximaNova Regular", Arial, sans-serif !important;
+    }
+
+    body.mobile-wallpaper {
+        min-width  : inherit;
+        min-height : inherit;
+    }
+
+    p {
+        margin  : 0;
+        padding : 0;
+    }
+
+    a, u {
+        text-decoration: none;
+    }
+
+    .group-form input,
+    .group-form .select {
+        display: inline-block;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    /**
+        colors
+        get color name from website
+        url: http://chir.ag/projects/name-that-color/#292929
+     */
+
+    .black {
+        color: #000000;
+    }
+
+    .mine-shaft {
+        color: #292929;
+    }
+
+    .muddy-waters {
+        color: #b7915a;
+    }
+
+    .medium-carmine {
+        color: #b7915a;
+    }
+
+    /**
+        input
+     */
+
+    input[type="checkbox"] {
+        display : none;
+    }
+
+    input[type="checkbox"] + label > span {
+        width      : 15px;
+        float      : left;
+        height     : 15px;
+        border     : 1px solid #000000;
+        margin     : 2px 14px 2px 2px;
+        display    : inline-block;
+        background : transparent;
+    }
+
+    input[type="checkbox"]:checked + label > span:before {
+        width       : 15px;
+        color       : #000000;
+        content     : '✓';
+        display     : block;
+        font-size   : 10px;
+        text-align  : center;
+        text-shadow : 0 0 1px rgba(0, 0, 0, 0.3);
+        font-weight : bold;
+    }
+
+    *:focus {
+        outline: none;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /**
+        select
+     */
+    .blackdrop {
+        background-color: rgba(0, 0, 0, 0.6);
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: 110;
+        top: 0;
+        left: 0;
+    }
+    .select {
+        width      : 80px;
+        position   : relative;
+    }
+
+    .select .selector {
+        width            : 100%;
+        color            : #000;
+        height           : 27px;
+        border           : none;
+        cursor           : pointer;
+        padding          : 3px 0 3px 7px;
+        font-size        : 14px;
+        text-align       : left;
+        border-bottom    : 1px solid #c6c6c6;
+
+        background            : transparent;
+        background-image      : url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat     : no-repeat;
+        background-position-x : 100%;
+        background-position-y : center;
+    }
+
+    .select ul {
+        width           : auto;
+        right           : 0;
+        margin          : 0;
+        z-index         : 2;
+        padding         : 0;
+        display         : none;
+        position        : absolute;
+        min-width       : 100%;
+        box-shadow      : 0 1px 30px #e1e1e1;
+        background      : #ffffff;
+        border-top      : 2px solid #e5e5e5;
+        margin-top      : 13px;
+        list-style-type : none;
+    }
+
+    .select ul:before {
+        top           : -9px;
+        right         : 10px;
+        display       : block;
+        content       : '';
+        position      : absolute;
+        border-left   : 12px solid transparent;
+        border-right  : 12px solid transparent;
+        border-bottom : 9px solid #e5e5e5;
+    }
+
+    .select ul > li {
+        width       : 100%;
+        cursor      : pointer;
+        padding     : 11px 0;
+        font-size   : 14px;
+        text-align  : center;
+        background  : #ffffff;
+        box-sizing  : border-box;
+        line-height : 25px;
+    }
+
+    .select ul > li:last-child {
+        /*padding-bottom: 18px;*/
+    }
+
+    .select ul > li:hover {
+        background : #f8f8f8;
+    }
+
+    /**-------------------------------------
+        app
+    --------------------------------------**/
+
+    .app .main, .columns-wrapper {
+        -moz-transition    : all 200ms ease-in;
+        -webkit-transition : all 200ms ease-in;
+        -o-transition      : all 200ms ease-in;
+        transition         : all 200ms ease-in;
+        font-family        : "ProximaNova Regular", serif;
+    }
+    .top-background {
+        width: 100%;
+        height: 446px;
+        position: fixed;
+        top: 0;
+        z-index: 5;
+        background : rgba(255,255,255,1);
+        background : -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 81%, rgba(255,255,255,0.48) 90%, rgba(255,255,255,0) 100%);
+        background : -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(81%, rgba(255,255,255,1)), color-stop(90%, rgba(255,255,255,0.48)), color-stop(100%, rgba(255,255,255,0)));
+        background : -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 81%, rgba(255,255,255,0.48) 90%, rgba(255,255,255,0) 100%);
+        background : -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 81%, rgba(255,255,255,0.48) 90%, rgba(255,255,255,0) 100%);
+        background : -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 81%, rgba(255,255,255,0.48) 90%, rgba(255,255,255,0) 100%);
+        background : linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 81%, rgba(255,255,255,0.48) 90%, rgba(255,255,255,0) 100%);
+        filter     : progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );
+    }
+
+    /**-------------------------------------
+        Edit Modes
+    --------------------------------------**/
+
+    .push .main.calendar, .push .columns-wrapper  {
+        margin-left : -180px;
+    }
+
+    .editMode .side-menus {
+        margin:0;
+    }
+
+    /**-------------------------------------
+        Plugin Overrides
+    --------------------------------------**/
+
+    .datetimepicker {
+        top: 20px !important;
+    }
+
+    /**-------------------------------------
+        Nav
+    --------------------------------------**/
+
+    .nav {
+        top           : 0;
+        width         : 100%;
+        padding       : 25px 25px 20px 32px;
+        z-index       : 7;
+        position      : fixed;
+        box-sizing    : border-box;
+        background    : #ffffff;
+        border-bottom : 1px solid #d7d7d7;
+    }
+
+    .nav .logo {
+        width       : 151px;
+        height      : auto;
+        position    : relative;
+        margin-left : calc(10% - 45px);
+        display: inline-block;
+    }
+
+    #app.login .nav .logo {
+        margin-left: 0;
+    }
+
+    .nav .logo img {
+        width  : 100%;
+        height : 100%;
+    }
+
+    .nav .avatar {
+        float       : right;
+        cursor      : pointer;
+        position    : relative;
+        font-family : "ProximaNova Regular", Arial, sans-serif;
+    }
+
+    .nav .avatar .avatar-icon {
+        top           : -3px;
+        left          : -40px;
+        width         : 25px;
+        height        : 25px;
+        border-radius : 50%;
+        position      : absolute;
+    }
+
+    .nav .avatar span {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    /**
+        user-panel
+     */
+
+    .nav .user-panel {
+        right       : 0;
+        color       : #636363;
+        width       : 270px;
+        display     : none;
+        padding     : 20px;
+        position    : absolute;
+        font-size   : 14px;
+        background  : #ffffff;
+        margin-top  : 11px;
+        border-top  : 3px solid #a9a9a9;
+        box-shadow  : 0 0 30px #f3f3f3;
+        font-family : "ProximaNova Regular", serif;
+    }
+
+    .nav .user-panel:before {
+        top           : -9px;
+        right         : 10px;
+        display       : block;
+        content       : '';
+        position      : absolute;
+        border-left   : 12px solid transparent;
+        border-right  : 12px solid transparent;
+        border-bottom : 9px solid #a9a9a9;
+    }
+
+    .nav .user-panel .credits {
+        margin-bottom : 18px;
+    }
+
+    .nav .user-panel span {
+        color       : #292929;
+        margin-left : 10px;
+    }
+
+    .nav .user-panel a {
+        color: #636363;
+    }
+
+
+    /**-------------------------------------
+        Main
+    --------------------------------------**/
+
+    .main {
+        width    : 100%;
+        position : relative;
+    }
+
+    /**
+        login bg
+     */
+
+    .main.login {
+        background      : url('/_media/images/booking/login_bg_image.png') no-repeat center;
+        background-size : cover;
+        background-position: 0 44px;
+    }
+
+    /**
+        main calendar
+     */
+
+    .main.calendar {
+        margin: 68px 5.7% 0 10%;
+        width: 84.3%;
+    }
+
+    /**-------------------------------------
+        Progress
+    --------------------------------------**/
+
+    @keyframes spin {
+        to {
+            transform : rotate(1turn);
+        }
+    }
+
+    .progress {
+        display     : inline-block;
+        width       : 5em;
+        height      : 5em;
+        margin      : 0 .5em;
+        font-size   : 3px;
+        text-indent : 999em;
+        overflow    : hidden;
+        animation   : spin 0.8s infinite steps(8);
+        position    : absolute;
+        top: 14px;
+        left: 35px;
+    }
+
+    .progress:before,
+    .progress:after,
+    .progress > div:before,
+    .progress > div:after {
+        content          : '';
+        position         : absolute;
+        top              : 0;
+        left             : 2.25em; /* (container width - part width)/2  */
+        width            : .5em;
+        height           : 1.5em;
+        border-radius    : .2em;
+        background       : #eee;
+        box-shadow       : 0 3.5em #eee; /* container height - part height */
+        transform-origin : 50% 2.5em; /* container height / 2 */
+    }
+
+    .progress:before {
+        background : #555;
+    }
+
+    .progress:after {
+        transform  : rotate(-45deg);
+        background : #777;
+    }
+
+    .progress > div:before {
+        transform  : rotate(-90deg);
+        background : #999;
+    }
+
+    .progress > div:after {
+        transform  : rotate(-135deg);
+        background : #bbb;
+    }
+
+    /**-------------------------------------
+        Login
+    --------------------------------------**/
+
+    .main .login-sidebar {
+        width      : 35%;
+        height     : 100vh;
+        position   : relative;
+        max-width  : 501px;
+        min-width  : 397px;
+        min-height : 768px;
+        background : rgba(255, 255, 255, 0.9);
+    }
+
+    .main .login-sidebar .container {
+        width       : 75%;
+        margin      : 0 auto;
+        min-width   : 325px;
+        padding-top : 80px;
+    }
+
+    .main .login-sidebar h1 {
+        font-size      : 35px;
+        font-weight    : 900;
+        font-family    : "Proxima Nova cond bold";
+        margin: 75px 0 35px 0;
+        text-transform : uppercase;
+    }
+
+    .main .login-sidebar p.summary {
+        margin-bottom : 35px;
+    }
+
+    .main .login-sidebar div.summary {
+        font-size     : 14px;
+        margin-bottom : 35px;
+    }
+
+    .main .login-sidebar div.summary p {
+        padding-top   : 5px;
+    }
+
+    .main .login-sidebar div.summary p span {
+        margin-right: 10px;
+    }
+
+    /**
+        login form
+     */
+
+    .main .login-sidebar .form {
+        width: 312px;
+        margin-bottom: 24px;
+    }
+
+    .main .login-sidebar .form .group-form {
+        margin-bottom : 20px;
+    }
+
+    .side-menus input,
+    .quick-booking input,
+    .main .login-sidebar .form input {
+        width            : 80px;
+        color            : #000;
+        border           : none;
+        padding          : 3px 0 3px 7px;
+        font-size        : 14px;
+        border-bottom    : 1px solid #c6c6c6;
+        background-color : transparent;
+        /*font-weight: bold;*/
+        font-family: "ProximaNova Regular", serif;
+    }
+
+    .side-menus input:focus,
+    .quick-booking input:focus,
+    .main .login-sidebar .form input:focus {
+        outline: none;
+    }
+
+    .main .login-sidebar .form input {
+        width       : 203px;
+        padding     : 3px 0;
+        margin-left : 16px;
+    }
+
+    /**
+        login code
+     */
+
+    .main .login-sidebar .code {
+        margin-bottom: 37px;
+    }
+
+    .main .login-sidebar .code H2 {
+        font-size      : 18pt;
+        margin-bottom  : 15px;
+        text-transform : uppercase;
+    }
+
+    .main .login-sidebar .code input {
+        color            : #000;
+        width            : 35px;
+        height           : 40px;
+        border           : 1px solid #a9a9a9;
+        font-size        : 21pt;
+        text-align       : center;
+        margin-right     : 20px;
+        border-radius    : 5px;
+        background-color : transparent;
+    }
+
+    .main .login-sidebar .code p {
+        font-size   : 12px;
+        margin-top  : 15px;
+        font-weight : bold;
+        font-family : "ProximaNova Regular", serif;
+    }
+
+    /**
+        hide input number arrow
+     */
+
+    .main .login-sidebar input[type='number'] {
+        -moz-appearance:textfield;
+    }
+
+    .main .login-sidebar input::-webkit-outer-spin-button,
+    .main .login-sidebar input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    .main .login-sidebar input:focus {
+        outline: none;
+    }
+
+    .main .login-sidebar .error-notification {
+        margin-bottom: 18px;
+        color:#aa5235;
+        font-size: 14px;
+    }
+
+    .main .login-sidebar button.send,
+    .login-mobile-wallpaper .bottom button {
+        width          : 100%;
+        color          : #ffffff;
+        height         : 45px;
+        cursor         : pointer;
+        border         : none;
+        font-size      : 14px;
+        background     : #000000;
+        font-weight    : bold;
+        text-transform : uppercase;
+        position: relative;
+    }
+    .main .login-sidebar .bottom {
+        font-size: 12px;
+    }
+
+    .main .login-sidebar button:focus {
+        outline: none;
+    }
+
+    .main .login-sidebar .issues {
+        margin-bottom: 12px;
+    }
+
+    /**
+        bottom policy
+     */
+
+    .main .login-sidebar .bottom {
+        bottom        : 0;
+        position      : absolute;
+        margin-bottom : 28px;
+        width: 200px;
+    }
+
+    .main .login-sidebar .bottom .group-form {
+        font-size     : 14px;
+        margin-bottom : 25px;
+    }
+    .main .group-form label {
+        position: relative;
+        top:3px;
+    }
+
+    .main .login-sidebar .bottom .group-form input {
+        width  : 15px;
+        height : 15px;
+    }
+
+    .main .login-sidebar .policy {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    /**
+        login mobile wallpaper
+     */
+
+    .login-mobile-wallpaper {
+        width    : 100%;
+        height   : 100%;
+        position : fixed;
+        z-index: 15;
+        display: none;
+
+        background              : url("/_media/images/booking/mobile-wallpaper.png") no-repeat top center fixed #ffffff;
+        -webkit-background-size : cover; /* For WebKit*/
+        -moz-background-size    : cover; /* Mozilla*/
+        -o-background-size      : cover; /* Opera*/
+        background-size         : cover; /* Generic*/
+    }
+
+    .login-mobile-wallpaper .bottom {
+        width      : 100%;
+        bottom     : 0;
+        position   : absolute;
+        text-align : center;
+    }
+
+    .login-mobile-wallpaper .bottom button {
+        width     : 90%;
+        height    : inherit;
+        margin    : 0 auto;
+        padding   : 15px 0;
+        font-size : 30px;
+        font-family: "ProximaNova Regular", Arial, sans-serif;
+        font-weight: 500;
+    }
+
+    .login-mobile-wallpaper .bottom div {
+        margin    : 20px 0;
+        font-size : 12pt;
+    }
+
+    /**-------------------------------------
+        calendar - top controls
+    --------------------------------------**/
+
+    .calendar .controls {
+        clear: both;
+        display: inline-block;
+        box-sizing: border-box;
+        position: fixed;
+        top: 66px;
+        z-index: 5;
+        width: 84.3%;
+        padding: 29px 0 0;
+        background: #ffffff;
+    }
+
+    .calendar .controls > div {
+        display: inline-block;
+    }
+
+    /**
+        position-left
+     */
+
+    .calendar .controls .today {
+        text-transform: uppercase;
+    }
+
+    .calendar .controls .position-left button,
+    .side-menus .meeting .date button.date-select {
+        cursor       : pointer;
+        border       : 2px solid #f6f6f6;
+        padding      : 10px 14px 9px;
+        font-size    : 12px;
+        font-weight  : bold;
+        background   : #ffffff;
+        margin-right : 12px;
+    }
+
+    .calendar .controls .position-left button:not(.date-select):hover {
+        background: #f8f8f8;
+    }
+
+    .calendar .controls .position-left button:not(.date-select):active {
+        border: 2px solid #d3d3d3;
+    }
+
+    .calendar .controls button:focus {
+        outline : 0;
+    }
+
+    .calendar .controls .radius-left {
+        border-top-left-radius    : 5px;
+        border-bottom-left-radius : 5px;
+    }
+
+    .calendar .controls .radius-right {
+        border-top-right-radius    : 5px;
+        border-bottom-right-radius : 5px;
+    }
+
+    .calendar .controls .radius-bottom {
+        border-bottom-left-radius  : 5px;
+        border-bottom-right-radius : 5px;
+    }
+
+    .controls .yesterday.disabled {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .calendar .controls button.date-select,
+    .side-menus .meeting .date button.date-select {
+        border        : none;
+        font-size     : 16px;
+        font-family   : "ProximaNova Regular", serif;
+        padding-left  : 10px;
+        padding-right : 30px;
+
+        background            : transparent;
+        background-image      : url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat     : no-repeat;
+        background-position-x : 100%;
+        background-position-y : center;
+    }
+
+    .calendar .controls button.date-select {
+        font-weight: normal;
+    }
+    /**
+        position-right
+     */
+
+    .calendar .controls .position-right {
+        float: right;
+    }
+
+    .calendar .controls .position-right .select {
+        width     : auto;
+        min-width : 110px;
+    }
+
+    .calendar .controls .position-right button {
+        border         : 2px solid #f6f6f6;
+        padding        : 10px 14px 8px 12px;
+        font-size      : 12px;
+        font-weight    : bold;
+        text-transform : uppercase;
+        height: auto;
+    }
+    .calendar .controls .position-left button.today {
+        width:94px;
+    }
+
+    .calendar .controls .position-right > div {
+        display: inline-block;
+    }
+
+    .calendar .controls .position-right .location {
+        margin-right : 12px;
+        width        : 200px;
+    }
+
+    /**-------------------------------------
+        calendar - main
+    --------------------------------------**/
+
+    .main-calendar {
+        width: 100%;
+        clear: both;
+        position: absolute;
+        display: inline-block;
+        background: transparent;
+        z-index: 3;
+        margin-bottom: 100px;
+        top: 446px;
+    }
+
+    .columns-wrapper {
+        position : relative;
+        width: 84.3%;
+        margin-left: 10%;
+        box-shadow : 0 0 30px #f3f3f3;
+    }
+
+    .columns-wrapper:after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .columns-wrapper .times {
+        position : absolute;
+        top      : 0;
+        left     : -45px;
+        width    : 60px;
+    }
+
+    .columns-wrapper .times div {
+        color       : #292929;
+        height      : 50px;
+        font-size   : 12px;
+        font-weight : 300;
+        font-family : "ProximaNova Regular", serif;
+        position: relative;
+        top: -8px;
+    }
+
+
+    /**
+        main
+     */
+
+    .main-calendar .wrapper {
+        width  : 1000%;
+        height : 2685px;
+    }
+
+    .main-calendar .wrapper:after {
+        content : "";
+        clear   : both;
+        display : table;
+    }
+
+    /**-------------------------------------
+        Rooms Slider
+    --------------------------------------**/
+
+    .rooms-slider {
+        width      : 84.3%;
+        clear      : both;
+        display    : inline-block;
+        box-sizing : border-box;
+        position   : fixed;
+        background : #f3f3f3;
+        max-height : 281px;
+        top        : 166px;
+        z-index    : 4;
+        box-shadow : 0 0 30px #f3f3f3;
+    }
+
+    /**
+        Arrow Buttons
+    */
+
+    .rooms-slider .arrow-left,
+    .rooms-slider .arrow-right {
+        position   : absolute;
+        width      : 34px;
+        height     : 111px;
+        border     : 2px solid #f6f6f6;
+        cursor     : pointer;
+        margin-top : 68px;
+        background : #ffffff;
+        top        : 0;
+    }
+    .rooms-slider .arrow-left {
+        left: -64px;
+    }
+    .rooms-slider .arrow-right {
+        right: -64px;
+    }
+    .rooms-slider .arrow-right:after {
+        transform: rotate(180deg);
+    }
+
+
+    .rooms-slider .arrow-left:hover,
+    .rooms-slider .arrow-right:hover {
+        border-color: #d3d3d3;
+    }
+
+    .rooms-slider .arrow-right:active {
+        background:#f8f8f8;
+    }
+
+    .rooms-slider .arrow-left:active,
+    .rooms-slider .arrow-right:active {
+        border: 1px solid #d3d3d3;
+    }
+
+
+    .rooms-slider .arrow-left:after,
+    .rooms-slider .arrow-right:after {
+        top         : 50%;
+        left        : 50%;
+        width       : 7px;
+        height      : 25px;
+        content     : "";
+        position    : absolute;
+        background  : url("/_media/images/booking/arrow.png") no-repeat center center;
+        margin-top  : -12.5px;
+        margin-left : -3.5px;
+
+        /*transform    : rotate(0deg);*/
+    }
+
+
+
+    /**
+        rooms
+    */
+    .rooms-wrapper {
+        overflow: hidden;
+    }
+
+    /**
+        room header
+     */
+    .rooms-slider .room {
+        width:25%;
+        float:left;
+        background:#f3f3f3;
+        padding: 24px 2% 0;
+        font-family: "ProximaNova Regular", serif;
+        border-right: 1px solid #e1e1e1;
+        min-height: 280px;
+    }
+
+    .rooms-slider .room:first-child {
+        border-left: 1px solid #f3f3f3;
+    }
+
+    .rooms-slider .room:last-child {
+        border-right: 1px solid #f3f3f3;
+    }
+
+    .rooms-slider .room img {
+        width      : 100%;
+        margin-top : 15px;
+    }
+
+    .rooms-slider .room  p {
+        height        : 30px;
+        font-size     : 12px;
+        margin-top    : 14px;
+        font-weight   : 300;
+        margin-bottom : 10px;
+    }
+
+    /**
+        room left
+     */
+
+    .rooms-slider .room .left {
+        float      : left;
+        max-width  : 85%;
+        min-height : 55px;
+    }
+
+    .rooms-slider .room .left h2 {
+        font-size      : 14px;
+        margin-top     : 0;
+        font-weight    : 600;
+        text-transform : uppercase;
+        margin-bottom: 5px;
+    }
+
+    .rooms-slider .room .left span {
+        color       : #292929;
+        font-size   : 14px;
+        font-weight : 300;
+    }
+
+    /**
+        room right
+     */
+
+    .rooms-slider .room .right {
+        float      : right;
+        text-align : right;
+    }
+
+    .rooms-slider .room .right h1 {
+        font-size     : 21px;
+        margin-top    : 0;
+        font-weight   : bold;
+        margin-bottom : 4px;
+    }
+
+    .rooms-slider .room .right span {
+        color       : #292929;
+        font-size   : 10px;
+        font-weight : 300;
+        position    : relative;
+        top         : -3px;
+    }
+
+
+    /**-------------------------------------
+        calendar - events
+    --------------------------------------**/
+
+    .room-column {
+        width: 25%;
+        float: left;
+        border-right: 1px solid #e1e1e1;
+    }
+
+    .room-column:nth-child(2) {
+        border-left: 1px solid #e1e1e1;
+    }
+
+    .main-calendar .room-column .events {
+        clear      : both;
+        height     : 2400px;
+        position   : relative;
+        background : url("/_media/images/booking/row-bg.png") #ffffff;
+    }
+
+    .main-calendar .room-column .events .event {
+        width      : 93%;
+        /*padding    : 11px 18px 15px 18px;*/
+        position   : absolute !important;
+        background: url("/_media/images/booking/pattern.jpg");
+        /*transition         : all 0.2s linear;*/
+        /*-webkit-transition : all 0.2s linear;*/
+    }
+
+    .main-calendar .room-column .events .event.private-data:after {
+        content          : "";
+        width            : 82px;
+        height           : 36px;
+        background       : url("/_media/images/booking/private.jpg") no-repeat 50% 50%;
+        right            : 5px;
+        position         : absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -41px;
+        margin-top: -18px;
+        display          : inline-block;
+        z-index: 10;
+    }
+
+    .main-calendar .room-column .events .event > div{
+        padding: 11px 18px 15px 18px;
+    }
+
+    .main-calendar .room-column .events .event.self {
+        cursor     : move;
+        z-index    : 3;
+        background : #fbe8c1;
+    }
+    .main-calendar .username {
+        font-size: 12px;
+    }
+
+    .main-calendar .room-column .events .event.focus {
+        cursor     : move;
+        border     : 1px solid #b7915a;
+        background : #fbe8c1;
+    }
+
+    .main-calendar .room-column .events .event.focus .resize {
+        left        : 50%;
+        width       : 11px;
+        height      : 1px;
+        bottom      : 8px;
+        cursor      : n-resize;
+        content     : "";
+        position    : absolute;
+        background  : #b7915a;
+        box-shadow  : 0 2px 0 0 #b7915a;
+        margin-left : -5px;
+    }
+
+    .main-calendar .room-column .events .event h2.time {
+        margin        : 0;
+        font-size     : 12px;
+        font-weight: 600;
+        margin-bottom : 0.5%;
+    }
+
+    .main-calendar .room-column .events .event p {
+        position : absolute;
+        bottom   : 10px;
+    }
+
+    /**
+        Quick booking
+     */
+
+    .quick-booking {
+        height        : auto;
+        cursor        : auto;
+        z-index       : 10;
+        opacity       : 0;
+        width         : 305px;
+        padding       : 0 22px;
+        position      : fixed;
+        box-shadow    : 0 0 30px #cccccc;
+        background    : #ffffff;
+        border-bottom : 3px solid #a9a9a9;
+
+    }
+
+    .quick-booking:before {
+        right        : 50%;
+        bottom       : -9px;
+        display      : block;
+        content      : '';
+        position     : absolute;
+        border-top   : 9px solid #a9a9a9;
+        border-left  : 12px solid transparent;
+        border-right : 12px solid transparent;
+        margin-right : -12px;
+    }
+
+    .quick-booking h1 {
+        margin         : 26px 0 0;
+        font-size      : 30px;
+        font-weight    : bold;
+        font-family    : "Proxima Nova Condensed", serif;
+        text-transform : uppercase;
+    }
+
+    .quick-booking h2 {
+        margin         : 24px 0 3px;
+        font-size      : 14px;
+        font-weight    : bold;
+        font-family    : "ProximaNova Regular", serif;
+        text-transform : uppercase;
+    }
+
+    .quick-booking .where h2 {
+        margin         : 24px 0 3px;
+    }
+
+    .quick-booking .when h2 {
+        margin         : 20px 0 3px;
+    }
+
+    .quick-booking input {
+        width     : 82.3%;
+        padding   : 3px 0 3px 1px;
+        font-size : 14px;
+        color     : #000000;
+    }
+
+    .quick-booking .title {
+        margin-top: 24px;
+    }
+
+    .quick-booking span {
+        font-size   : 14px;
+        font-family : "ProximaNova Regular", serif;
+    }
+
+    .quick-booking .credits {
+        margin: 16px 0;
+        position: relative;
+    }
+
+    .quick-booking .credits div,
+    .quick-booking .credits span {
+        color     : #a9a9a9;
+        font-size : 12px;
+    }
+
+    .quick-booking .credits span {
+        color: black;
+    }
+
+    .quick-booking .credits span.error {
+        color   : #aa5235;
+        margin  : 0 0 16px;
+        display : block;
+    }
+
+    .quick-booking .notification {
+        color         : #a9a9a9;
+        font-size     : 12px;
+        margin-bottom : 20px;
+    }
+
+    .quick-booking .no-credit {
+        text-align  : center;
+    }
+
+    .quick-booking .no-credit button {
+        width          : 100%;
+        color          : #ffffff;
+        height         : 45px;
+        cursor         : pointer;
+        border         : none;
+        font-size      : 15px;
+        background     : #000000;
+        font-weight    : 600;
+        text-transform : uppercase;
+    }
+
+    .quick-booking .no-credit a {
+        color       : #b7915a;
+        /*padding     : 21px 0 21px 0;*/
+        display     : block;
+        font-size   : 14pt;
+        font-weight : bold;
+    }
+
+    .quick-booking .book {
+        width         : 40%;
+        display       : inline-block;
+        text-align    : left;
+        margin-bottom : 19px;
+    }
+
+    .quick-booking .book button {
+        width          : 90px;
+        color          : #ffffff;
+        height         : 35px;
+        cursor         : pointer;
+        border         : none;
+        display        : inline-block;
+        font-size      : 14px;
+        background     : #000000;
+        font-weight    : 600;
+        text-transform : uppercase;
+    }
+
+    .quick-booking .quick-edit {
+        color       : #b7915a;
+        display     : inline-block;
+        font-size   : 14px;
+        margin-left : 28px;
+        font-weight : bold;
+    }
+
+    .quick-booking .quick-edit.no-credits {
+        width      : 20%;
+        margin     : 15px auto;
+        display    : block;
+        text-align : center;
+    }
+
+    /**-------------------------------------
+        Side Menu Push / Pull
+    --------------------------------------**/
+
+    .side-menus {
+        top         : 0;
+        right       : 0;
+        width       : 373px;
+        height      : 100%;
+        margin      : 0 -373px 0 0;
+        z-index     : 6;
+        position    : fixed;
+        box-shadow  : 0 1px 30px rgba(225, 225, 225, 0.4);
+        background  : #f3f3f3;
+        border-left : 1px solid #cacaca;
+        padding-top : 66px;
+
+        -webkit-transition : all 200ms ease-in;
+        -moz-transition    : all 200ms ease-in;
+        -o-transition      : all 200ms ease-in;
+        transition         : all 200ms ease-in;
+    }
+
+    /**
+        header
+     */
+
+    .side-menus .header {
+        width       : 100%;
+        padding     : 33px 44px 20px;
+        font-family : "ProximaNova Regular", serif;
+        position    : relative;
+    }
+
+    .side-menus .header:after {
+        clear   : both;
+        display : table;
+        content : "";
+    }
+
+    /**
+        left
+     */
+
+    .side-menus .header .left {
+        float: left;
+        max-width: 72%;
+    }
+
+    .side-menus .left h2 {
+        font-size      : 14px;
+        margin-top     : 0;
+        font-weight    : 600;
+        text-transform : uppercase;
+    }
+
+    .side-menus .left span {
+        color       : #292929;
+        font-size   : 14px;
+        font-weight : 300;
+    }
+
+    /**
+        right
+     */
+
+    .side-menus .header .right {
+        float      : right;
+        text-align : right;
+        margin-right: 50px;
+    }
+
+    .side-menus .header .right h1 {
+        font-size     : 21px;
+        margin-top    : 0;
+        font-weight   : bold;
+        margin-bottom : 4px;
+    }
+
+    .side-menus .header .right span {
+        color       : #292929;
+        font-size   : 10px;
+        font-weight : 300;
+        position    : relative;
+        top         :-2px;
+    }
+
+    /**
+        meeting
+     */
+
+    .side-menus .twitter-typeahead {
+        width:100%;
+    }
+
+    .side-menus .tt-menu {
+        width:100%;
+        background: #ffffff;
+        font-size: 14px;
+        padding: 10px;
+        display: none;
+        box-shadow: 0 1px 30px #a9a9a9;
+        border-top: 2px solid #e5e5e5;
+        margin-top: 13px;
+
+    }
+    .side-menus .tt-suggestion {
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .side-menus .meeting {
+        padding    : 0 44px 10px 44px;
+        background : #f3f3f3;
+        border-top : 1px solid #e4e4e4;
+
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e4e4e4+0,f3f3f3+43,f3f3f3+43 */
+        background : -moz-linear-gradient(top, #e4e4e4 0%, #f3f3f3 23%, #f3f3f3 23%); /* FF3.6-15 */
+        background : -webkit-linear-gradient(top, #e4e4e4 0%, #f3f3f3 23%, #f3f3f3 23%); /* Chrome10-25,Safari5.1-6 */
+        background : linear-gradient(to bottom, #e4e4e4 0%, #f3f3f3 23%, #f3f3f3 23%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter     : progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e4e4', endColorstr='#f3f3f3', GradientType=0); /* IE6-9 */
+    }
+
+    .side-menus .meeting h2 {
+        font-size      : 30px;
+        margin-top     : 30px;
+        font-weight    : 900;
+        font-family    : "Proxima Nova Condensed", serif;
+        text-transform : uppercase;
+    }
+
+    .side-menus .meeting input {
+        width     : 100%;
+        padding   : 3px 0 3px 1px;
+        font-size : 14px;
+    }
+
+    /**
+        admin
+     */
+
+    .side-menus .meeting .admin .select  {
+        width: 100%;
+    }
+
+    /**
+        date
+     */
+
+    .side-menus .meeting .date button.date-select {
+        width          : 100%;
+        font-size      : 14px;
+        text-align     : left;
+        padding-top    : 3px;
+        padding-left   : 0;
+        border-bottom  : 1px solid #c6c6c6;
+        padding-bottom : 3px;
+    }
+
+    /**
+        time
+     */
+
+    .side-menus .meeting .time .select-time {
+        width: 100%;
+    }
+
+    .side-menus .meeting .time .select-time div {
+        display   : inline-block;
+        font-size : 14px;
+    }
+
+    .side-menus .meeting .time .select-time div.end,
+    .side-menus .meeting .time .select-time div.start {
+        width: 40%;
+    }
+
+    .side-menus .end li.disabled {
+        color:#cccccc;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .side-menus .meeting .time .select-time div.to {
+        width      : 17%;
+        text-align : center;
+    }
+    .side-menus .select-time .select ul {
+        max-height: 300px;
+        overflow-y: scroll !important;
+    }
+    /**
+        duration
+     */
+
+    .side-menus .meeting .duration {
+        color          : #a9a9a9;
+        font-size      : 12px;
+        margin-top     : 20px;
+        margin-bottom  : 40px;
+        text-transform : uppercase;
+    }
+
+    /**
+        credits
+     */
+
+    .side-menus .meeting .credits {
+        color     : #a9a9a9;
+        font-size : 12px;
+    }
+
+    .side-menus .meeting .credits span {
+        color: #000;
+    }
+
+    .side-menus .meeting .credits span.error {
+        color      : #aa5235;
+        font-size  : 11px;
+        margin-top : 5px;
+    }
+
+    /**
+        notification
+     */
+
+    .side-menus .meeting .notification {
+        color      : #a9a9a9;
+        font-size  : 12px;
+        margin-top : 20px;
+    }
+
+    /**
+        button
+     */
+
+    .side-menus .action {
+        bottom   : 35px;
+        position : absolute;
+    }
+
+    .side-menus .action button.add,
+    .side-menus .action button.update,
+    .side-menus .action button.confirm {
+        width       : 145px;
+        font-size   : 14px;
+        text-align  : center;
+        font-weight : bold;
+
+        color          : #ffffff;
+        height         : 45px;
+        cursor         : pointer;
+        border         : none;
+        background     : #000000;
+        text-transform : uppercase;
+    }
+
+    /**
+        update
+     */
+
+    .side-menus .action {
+        width: 300px;
+    }
+
+    .side-menus .action .update * {
+        display: inline-block;
+    }
+
+    .side-menus .action .delete_btn {
+        color           : #b7915a;
+        font-size       : 14px;
+        margin-left     : 50px;
+        text-decoration : none;
+    }
+
+    .side-menus .delete_btn:before {
+        top      : 0;
+        left     : -12px;
+        content  : url('/_media/images/booking/delete.png');
+        position : relative;
+    }
+
+    /**
+        add credits
+     */
+
+    .side-menus .action button.add {
+        width: 100%;
+    }
+
+    /**-------------------------------------
+        Alerts
+    --------------------------------------**/
+
+    /**
+        gray bg
+     */
+
+    .gray-bg {
+        top        : 0;
+        width      : 100%;
+        height     : 100%;
+        z-index    : 5;
+        position   : fixed;
+        background : rgba(0, 0, 0, 0.7);
+    }
+
+    /**
+        calendar event
+     */
+
+    .calendar-event {
+        top         : 50%;
+        left        : 50%;
+        width       : 450px;
+        height      : 235px;
+        z-index     : 10;
+        display     : block;
+        position    : fixed;
+        margin-top  : -117.5px;
+        margin-left : -225px;
+        background  : #ffffff;
+    }
+
+    /**
+        close
+     */
+    .close-x {
+        background: url('/_media/images/booking/close-x-btn.png');
+        background-size: 13px 13px;
+        background-repeat:no-repeat;
+        position: absolute;
+        top: 20px;
+        right: 22px;
+        width: 13px;
+        height: 13px;
+        cursor: pointer;
+    }
+
+
+    .use-our-app .close,
+    .calendar-event .close,
+    .main-calendar .quick-booking .close {
+        top      : 17px;
+        right    : 17px;
+        width    : 13px;
+        height   : 13px;
+        opacity  : 1;
+        display  : inline-block;
+        position : relative;
+
+    }
+
+    .use-our-app .close:after,
+    .use-our-app .close:before,
+    .calendar-event .close:after,
+    .calendar-event .close:before,
+    .main-calendar .quick-booking .close:after,
+    .main-calendar .quick-booking .close:before {
+        top        : 50%;
+        left       : 0;
+        width      : 100%;
+        height     : 1px;
+        content    : '';
+        position   : absolute;
+        margin-top : -1px;
+        background : #000;
+    }
+
+    .use-our-app .close::after,
+    .calendar-event .close::after,
+    .main-calendar .quick-booking .close:after {
+        -webkit-transform : rotate(-45deg);
+        -moz-transform    : rotate(-45deg);
+        -ms-transform     : rotate(-45deg);
+        -o-transform      : rotate(-45deg);
+        transform         : rotate(-45deg);
+    }
+
+    .use-our-app .close::before,
+    .calendar-event .close::before,
+    .main-calendar .quick-booking .close:before {
+        -webkit-transform : rotate(45deg);
+        -moz-transform    : rotate(45deg);
+        -ms-transform     : rotate(45deg);
+        -o-transform      : rotate(45deg);
+        transform         : rotate(45deg);
+    }
+
+    .main-calendar .quick-booking .close {
+        right  : -5px;
+        width  : 15px;
+        height : 15px;
+    }
+
+    .calendar-event h1 {
+        font-size      : 24pt;
+        margin-top     : 46px;
+        text-align     : center;
+        font-family    : "Proxima Nova Condensed", serif;
+        font-weight    : 600;
+        text-transform : uppercase;
+    }
+
+    .calendar-event .icons > .create-event-link {
+        color       : black;
+        width       : 50px;
+        cursor      : pointer;
+        display     : inline-block;
+        margin-top  : 25px;
+        margin-left : 78px;
+    }
+    .create-event-link p {
+        text-align: center;
+        margin-top: 16px;
+    }
+
+    .calendar-event .icons > a:hover {
+        color           : black;
+        text-decoration : none;
+    }
+
+    .calendar-event .icons > a img {
+        width   : 38px;
+        height  : 41px;
+        margin  : auto;
+        display : block;
+    }
+
+    .calendar-event .icons > a p {
+        text-align : center;
+        margin-top : 16px;
+    }
+
+    /**
+          Out Of credits
+       */
+
+    .out-of-credits {
+        left        : 50%;
+        width       : 361px;
+        height      : 144px;
+        bottom      : 0;
+        z-index     : 10;
+        display     : block;
+        padding     : 36px 32px 23px;
+        position    : fixed;
+        text-align  : center;
+        background  : #f3f3f3;
+        margin-left : -180px;
+    }
+
+    .out-of-credits p {
+        font-size      : 14px;
+        font-weight    : 300;
+        font-family    : "ProximaNova Regular", serif;
+        margin-bottom  : 20px;
+        text-transform : uppercase;
+    }
+
+    .out-of-credits button {
+        width          : 100%;
+        color          : #ffffff;
+        height         : 45px;
+        cursor         : pointer;
+        border         : none;
+        font-size      : 14px;
+        background     : #000000;
+        font-weight    : bold;
+        text-transform : uppercase;
+        letter-spacing: 0.7px;
+    }
+
+    /**
+        use-our-app
+     */
+
+    .use-our-app {
+        left        : 50%;
+        width       : 361px;
+        height      : 144px;
+        bottom      : 0;
+        display     : block;
+        z-index     : 10;
+        padding     : 26px 32px 23px;
+        position    : fixed;
+        text-align  : center;
+        background  : #f3f3f3;
+        margin-left : -180px;
+    }
+
+    .use-our-app .close {
+        position: absolute;
+    }
+
+    .use-our-app .text {
+        font-size      : 14px;
+        font-family    : "ProximaNova Bold";
+        margin-bottom  : 15px;
+        text-transform : uppercase;
+    }
+
+    .phones-app {
+        width:90%;
+        margin:0 auto;
+    }
+    .phones-app a:first-child {
+        float:left;
+    }
+    .phones-app a:last-child {
+        float:right;
+    }
+
+    /**
+        time-not-available
+     */
+
+    .time-not-available {
+        top         : 50%;
+        left        : 50%;
+        width       : 391px;
+        height      : 235px;
+        z-index     : 10;
+        display     : block;
+        position    : fixed;
+        text-align  : center;
+        margin-top  : -117.5px;
+        margin-left : -195.5px;
+        background  : #ffffff;
+    }
+
+    .time-not-available h1 {
+        font-size      : 30px;
+        margin-top     : 35px;
+        font-weight    : bold;
+        font-family    : "Proxima Nova Condensed", serif;
+        margin-bottom  : 25px;
+        text-transform : uppercase;
+    }
+
+    .time-not-available > div {
+        font-size   : 14px;
+        font-weight : bold;
+        font-family : "ProximaNova Regular", serif;
+    }
+
+    .time-not-available button {
+        color          : #ffffff;
+        width          : 90px;
+        height         : 35px;
+        cursor         : pointer;
+        border         : none;
+        font-size      : 12pt;
+        margin-top     : 35px;
+        background     : #000;
+        text-transform : uppercase;
+    }
+
+    /**-------------------------------------
+        Loader
+    --------------------------------------**/
+    .loader {
+        background-color: rgba(0, 0, 0, 0.6);
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: 110;
+        top: 0;
+        left: 0;
+    }
+    .spinner {
+        width: 40px;
+        height: 40px;
+        background-color: #ffffff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -20px;
+        margin-top: -20px;
+        -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+        animation: sk-rotateplane 1.2s infinite ease-in-out;
+    }
+
+    @-webkit-keyframes sk-rotateplane {
+        0% { -webkit-transform: perspective(120px) }
+        50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+        100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+    }
+
+    @keyframes sk-rotateplane {
+        0% {
+            transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+        } 50% {
+              transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+              -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+          } 100% {
+                transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+                -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            }
+    }
+
+    @media (max-width: 1023px) {
+        .top-background {
+            position: static;
+        }
+        .nav {
+            position: static;
+            min-width: 1024px;
+        }
+        .main.calendar {
+            margin-top: 0;
+        }
+        .calendar .controls {
+            position: static;
+            width: 848px;
+        }
+        .rooms-slider {
+            position: relative;
+            width: 848px;
+            top: 17px;
+        }
+        .main-calendar {
+            width: 1024px;
+            top: 433px;
+        }
+        .columns-wrapper {
+            width: 848px;
+        }
+
+    }
