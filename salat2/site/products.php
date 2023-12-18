@@ -26,12 +26,12 @@ require_once($_project_server_path . $_salat_path . $this_dir . "/modules_fields
 include_once($_SERVER["DOCUMENT_ROOT"] . "/_inc/autoloader.config.php");
 include_once($_project_server_path . $_includes_path . 'site.array.inc.php'); // 15/04/2011
 
-$_Proccess_Main_DB_Table = "tb_categories";
+$_Proccess_Main_DB_Table = "tb_products";
 
 $_Proccess_Title = $all_modulesArr[$_ProcessID];
 
 //order_num FIELD
-$_Proccess_Has_Ordering_Action = false;
+$_Proccess_Has_Ordering_Action = true;
 
 $_Proccess_Has_MetaTags = false;
 
@@ -265,13 +265,13 @@ function module_updateStaticFiles()
 {
     global $_Proccess_Main_DB_Table, $_Proccess_Has_MultiLangs;
 
-        if($_Proccess_Has_MultiLangs){
-            $UpdateStatic = new categoriesLangsUpdateStaticFiles();
-            $UpdateStatic->updateStatics();
-        }else{
-            $UpdateStatic = new categoriesLangsUpdateStaticFiles();
-            $UpdateStatic->updateStatics();
-        }
+    if($_Proccess_Has_MultiLangs){
+        $UpdateStatic = new categoriesLangsUpdateStaticFiles();
+        $UpdateStatic->updateStatics();
+    }else{
+        $UpdateStatic = new categoriesLangsUpdateStaticFiles();
+        $UpdateStatic->updateStatics();
+    }
 
 }
 
@@ -291,6 +291,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
     <script type="text/javascript" src="/resource/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
 
     <script type="text/javascript"> if (window.parent == window) location.href = '../frames.php'; </script>
+
     <script type="text/javascript">
         function doDel(rowID, ordernum) {
             if (confirm("<?=$_LANG['DEL_MESSAGE'];?>")) {
@@ -298,6 +299,21 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
                 document.location.href = "?act=del<?=$lang_fw;?>&id=" + rowID + "&order_num=" + ordernum;
             }
         }
+
+        $(function () {
+
+            //Orders
+            $('.order').on('click', function () {
+                var order_num = $($(this).parent().find('.input_order')).val();
+                var params = '<?=$fwParams;?>';
+                $.post("/salat2/_ajax/ajax.index.php", '&file=example_service&act=new_order&id=' + $(this).attr('example_id') + '&order_num=' + order_num, function (result) {
+                    if (result.msg == 'OK') {
+                        document.location.href = "?act=show" + params;
+                    }
+                }, "json");
+            });
+
+        });
 
     </script>
     <style type="text/css">
@@ -337,31 +353,30 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
 <div class="maindiv">
 
 
-
-<!-- add if if ($_Proccess_Has_GenricSearch)-->
-<!--        <br/>-->
-<!--        <div id="search_frm">-->
-<!--            <form action="" method="get" style="display:inline; font-size:12px; margin:0 auto;">-->
-<!--                <input type="hidden" name="act" value="show"/>-->
-<!--                <input type="hidden" name="dosearch" value="search"/>-->
-<!---->
-<!--                <table cellpadding="3" cellspacing="0" align="center">-->
-<!--                    <tr>-->
-<!---->
-<!--                        --><?//
-//                        foreach ($fieldsArr AS $key => $fieldArr) {
-//                            if ($fieldArr['input']['searchable'] == true) {
-//                                print "<td>" . $fieldArr['title'] . ":";
-//                                print draw_genric_search($fieldArr, $key) . "</td>";
-//                            }
-//                        }
-//                        ?>
-<!---->
-<!--                        <td><input type="submit" value="Search" class="buttons"/></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--            </form>-->
-<!--        </div>-->
+    <!-- add if if ($_Proccess_Has_GenricSearch)-->
+    <!--        <br/>-->
+    <!--        <div id="search_frm">-->
+    <!--            <form action="" method="get" style="display:inline; font-size:12px; margin:0 auto;">-->
+    <!--                <input type="hidden" name="act" value="show"/>-->
+    <!--                <input type="hidden" name="dosearch" value="search"/>-->
+    <!---->
+    <!--                <table cellpadding="3" cellspacing="0" align="center">-->
+    <!--                    <tr>-->
+    <!---->
+    <!--                        --><?//
+    //                        foreach ($fieldsArr AS $key => $fieldArr) {
+    //                            if ($fieldArr['input']['searchable'] == true) {
+    //                                print "<td>" . $fieldArr['title'] . ":";
+    //                                print draw_genric_search($fieldArr, $key) . "</td>";
+    //                            }
+    //                        }
+    //                        ?>
+    <!---->
+    <!--                        <td><input type="submit" value="Search" class="buttons"/></td>-->
+    <!--                    </tr>-->
+    <!--                </table>-->
+    <!--            </form>-->
+    <!--        </div>-->
 
     <? if ($_Proccess_Has_MultiLangs) { ?>
         <?= draw_module_tabs(); ?>
