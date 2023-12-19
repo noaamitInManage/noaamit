@@ -30,7 +30,7 @@ class productsLangsUpdateStaticFiles extends moduleUpdateStaticFiles implements 
         $smart_dir = parent::smartLangDirctory('/_static/products/', $_REQUEST['inner_id'], $module_lang_id);
         @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/products.' . $languagesArr[$module_lang_id]['title'] . '.inc.php');
 
-        updateStaticFile("SELECT Main.id, Main.active, Main.last_update, Main.media_id, Lang.title FROM `{$this->_Proccess_Main_DB_Table}` AS Main
+        updateStaticFile("SELECT Main.id, Main.active, Main.order_num, Main.last_update, Main.media_id, Lang.title, Lang.description FROM `{$this->_Proccess_Main_DB_Table}` AS Main
 						         	LEFT JOIN `{$this->_Proccess_Main_DB_Table}_lang` AS Lang ON (
 						               			Main.`id`=Lang.`obj_id`
 						               		) WHERE Lang.lang_id={$module_lang_id}
@@ -39,14 +39,14 @@ class productsLangsUpdateStaticFiles extends moduleUpdateStaticFiles implements 
             'productsArr', 'id', true, true);
 
         if ($_REQUEST['inner_id']) {
-            @unlink($_SERVER['DOCUMENT_ROOT'] . $smart_dir . 'category-' . $_REQUEST['inner_id'] . '.inc.php');
+            @unlink($_SERVER['DOCUMENT_ROOT'] . $smart_dir . 'product-' . $_REQUEST['inner_id'] . '.inc.php');
 
             updateStaticFile("SELECT * FROM `{$this->_Proccess_Main_DB_Table}` AS Main
                						LEFT JOIN `{$this->_Proccess_Main_DB_Table}_lang` AS Lang ON (
                							Main.`id`=Lang.`obj_id`
                						)
                						      WHERE Main.id='{$_REQUEST['inner_id']}' AND Lang.lang_id='{$module_lang_id}'",
-                $smart_dir . 'category-' . $_REQUEST['inner_id'] . '.inc.php',
+                $smart_dir . 'product-' . $_REQUEST['inner_id'] . '.inc.php',
                 'productArr');
         }
 

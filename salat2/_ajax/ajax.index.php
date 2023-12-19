@@ -35,6 +35,7 @@ $ajaxModulesArr = array(
 	"users",
 	"module_management_service",
 	"get_methods",
+	"product_service",
 );
 
 session_start();

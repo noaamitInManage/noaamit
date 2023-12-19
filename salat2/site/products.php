@@ -266,10 +266,10 @@ function module_updateStaticFiles()
     global $_Proccess_Main_DB_Table, $_Proccess_Has_MultiLangs;
 
     if($_Proccess_Has_MultiLangs){
-        $UpdateStatic = new categoriesLangsUpdateStaticFiles();
+        $UpdateStatic = new productsLangsUpdateStaticFiles();
         $UpdateStatic->updateStatics();
     }else{
-        $UpdateStatic = new categoriesLangsUpdateStaticFiles();
+        $UpdateStatic = new productsLangsUpdateStaticFiles();
         $UpdateStatic->updateStatics();
     }
 
@@ -306,7 +306,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
             $('.order').on('click', function () {
                 var order_num = $($(this).parent().find('.input_order')).val();
                 var params = '<?=$fwParams;?>';
-                $.post("/salat2/_ajax/ajax.index.php", '&file=example_service&act=new_order&id=' + $(this).attr('example_id') + '&order_num=' + order_num, function (result) {
+                $.post("/salat2/_ajax/ajax.index.php", '&file=product_service&act=new_order&id=' + $(this).attr('product_id') + '&order_num=' + order_num, function (result) {
                     if (result.msg == 'OK') {
                         document.location.href = "?act=show" + params;
                     }
@@ -386,17 +386,24 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
             <tr class="dottTbl">
                 <?php $columns_count = fields_get_show_heads_fields($fieldsArr, false); ?>
                 <?php if ($_Proccess_Has_Ordering_Action) { ?>
-                    <td width="70">סדר</td>
+                    <td width="100">סידור ידני</td>
                 <?php } ?>
+
                 <td width="100">&nbsp;</td>
             </tr>
             <?php for ($count = $resultArr['result']->num_rows, $i = 0; $row = $Db->get_stream($resultArr['result']); $i++) {
                 $c = ($i % 2 == 0) ? 'even' : 'odd'; ?>
                 <tr class="normTxt <?= $c ?>">
                     <?php $columns_count = fields_get_show_rows_fields($fieldsArr, $row, false); ?>
-                    <?php if ($_Proccess_Has_Ordering_Action) { ?>
-                        <td class="dottTblS"><?php echo outputOrderingArrows($count, $i, 'id', $row['id'], $row['order_num']); ?></td>
-                    <?php } ?>
+                        <?php if ($_Proccess_Has_Ordering_Action) { ?>
+                            <td class="dottTblS">
+                                <input type=text class="input_order" style="width: 55px;" name="order_num"
+                                       value="<?= $row['order_num']; ?>"/>
+                                <input type="button" class="buttons order"
+                                       product_id="<?php echo $row['id'] . $fwParams; ?>" value="עדכן"/> &nbsp;
+                            </td>
+                        <? } ?>
+
                     <td class="dottTblS">
                         <?php if (!in_array($row['id'], $_Proccess_HC_RowsID_Arr_NOT_EDITABLE)) { ?>
                             <input type="button" class="buttons" value="<?=$_LANG['BTN_EDIT'];?>"
