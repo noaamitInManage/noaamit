@@ -147,12 +147,13 @@ elseif ($act == 'after') {
         $_REQUEST['inner_id'] = $obj_id;
         if ($_Proccess_Has_MultiLangs) {
             multi_lang_update_query($_Proccess_Main_DB_Table, $_REQUEST['inner_id'], $fieldsArr, $module_lang_id);
+
         } else {
             $query = "UPDATE {$_Proccess_Main_DB_Table} SET " . fields_implode(',', $fieldsArr, $_REQUEST, true) . " WHERE id='{$obj_id}'";
             $result = $Db->query($query);
         }
     }
-    //insert with multi_lang_insert_query function - first to the main DB and then to _lang, according to $module_lang_id
+    //INSERT (because $obj_id = 0 so obj does not exist) with multi_lang_insert_query function - first to the main DB and then to _lang, according to $module_lang_id
     else {
         $query = "SELECT count(id) FROM {$_Proccess_Main_DB_Table}";
         $result = $Db->query($query);
@@ -163,19 +164,20 @@ elseif ($act == 'after') {
         } else {
             $query = "INSERT INTO {$_Proccess_Main_DB_Table}(" . fields_implode(', ', $fieldsArr) . ") VALUES (" . fields_implode(',', $fieldsArr, $_REQUEST) . ")";
             $result = $Db->query($query);
+            //the inner_id is the store id
             $_REQUEST['inner_id'] = $Db->get_insert_id();
         }
 
         if ($_Proccess_Has_Ordering_Action) {
             setMaxShowOrder($_Proccess_Main_DB_Table, 'order_num', 'id', $_REQUEST['inner_id']);
         }
-    }
-    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
-            'update_dynamic_table' => 'in update_dynamic_table',
-            'Here: ' . __LINE__ . ' at ' . __FILE__
-        ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
 
-    if (isset($_REQUEST['dynamTable']['id']) && $_REQUEST['dynamTable']['id']) {
+        $innerId = $_REQUEST['inner_id'];
+
+    }
+
+
+    if (isset($_REQUEST['dynamTable']) && $_REQUEST['dynamTable']) {
 
         update_dynamic_table($_REQUEST['inner_id']);
     }
@@ -295,11 +297,6 @@ function draw_dynamic_table($table_link = '', $main_table = '', $field_id_name =
 {
     global $langID, $row;
 
-    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
-    'draw_dynamic_table' => 'start draw dynamic table',
-    'Here: ' . __LINE__ . ' at ' . __FILE__
-    ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
-
     $Db = Database::getInstance();
 
     $itemsDyHTML = '';
@@ -313,6 +310,8 @@ function draw_dynamic_table($table_link = '', $main_table = '', $field_id_name =
     $and_where = "WHERE Main.id='{$row['id']}'";
     $field_id_name = 'store_id';
     $itemsDyHTML .= '<div class="dynamicTableItems">';
+
+
     $dynamSql = "SELECT Link.*
 					FROM `{$table_link}` AS Link
 						LEFT JOIN `{$main_table}` as Main ON(
@@ -320,31 +319,60 @@ function draw_dynamic_table($table_link = '', $main_table = '', $field_id_name =
 						)
 						 {$and_where}";
 
+    $tb_name='tb_categories_lang';
+    $query="SELECT obj_id as id, title FROM `{$tb_name}`";
+    $result=$Db->query($query);
+    $categories=array();
+    while($row = $Db->get_stream($result)) {
+        $categories[$row['id']] = $row['title'];
+    }
+
     $dynamRes = $Db->query($dynamSql);
+
     if ($dynamRes->num_rows > 0) {
         $count_index = 0;
         $cells = array();
+
+// for example :
+//        [$item] => Array
+//        (
+//            [id] => 37
+//            [store_id] => 42
+//            [category_id] => 1
+//        )
+        // id is the id on the link table , store_id is the id of the store in tb_stores, category_id is obj_id on tb_categories_lang
         while ($item = $Db->get_stream($dynamRes)) {
+
             $order_num = ($item['order_num']) ? $item['order_num'] : $count_index + 1;
 
             //category title
             $cells[$count_index][0] = array(
                 'type' => 'text',
-                'value' => $item['category_title'],
+                'value' => $categories[$item['category_id']],
                 'name' => 'dynamTable[category_title][' . $count_index . ']',
                 'direction' => $dirStyle
             );
 
-            //obj_id of the category
+            //category_id of the category
             $cells[$count_index][1] = array(
-                'type' => 'hidden',
+                'type' => 'text',
                 'value' => $item['category_id'],
                 'name' => 'dynamTable[category_id][' . $count_index . ']',
+                'direction' => $dirStyle
             );
 
+            //store_id
             $cells[$count_index][2] = array(
-                'extra' => 'id="' . $count_index . '"',
-                'class' => 'del_table',
+                'type' => 'hidden',
+                'value' => $item['store_id'],
+                'name' => 'dynamTable[store_id][' . $count_index . ']',
+                'direction' => $dirStyle
+            );
+
+            //delete button
+            $cells[$count_index][3] = array(
+                'extra' => 'id="' . $item['id'] . '"',
+                'class' => 'del_table colors_f',
             );
             $count_index++;
         }
@@ -353,6 +381,7 @@ function draw_dynamic_table($table_link = '', $main_table = '', $field_id_name =
     else{
         $count_index = 0;
 
+        //category title
         $cells[$count_index][0] = array(
             'type' => 'text',
             'value' => '',
@@ -360,24 +389,36 @@ function draw_dynamic_table($table_link = '', $main_table = '', $field_id_name =
             'direction' => $dirStyle
         );
 
-        //obj_id of the category
+        //category_id of the category
         $cells[$count_index][1] = array(
-            'type' => 'hidden',
+            'type' => 'text',
             'value' => '',
             'name' => 'dynamTable[category_id][' . $count_index . ']',
+            'direction' => $dirStyle
         );
 
-        $cells[$count_index][1] = array(
+        //store_id
+        $cells[$count_index][2] = array(
+            'type' => 'hidden',
+            'value' =>  $row['id'],
+            'name' => 'dynamTable[store_id][' . $count_index . ']',
+            'direction' => $dirStyle
+        );
+
+        //delete button
+        $cells[$count_index][3] = array(
             'extra' => 'id="' . $count_index . '"',
-            'class' => 'del_table',
+            'class' => 'del_table colors_f',
         );
     }
-    $itemsDyHTML .= make_dynamic_table($cells, array('קטגוריה'), true, true, true);
+    $itemsDyHTML .= make_dynamic_table($cells, array('קטגוריה', 'קוד'), true, true, true);
+
     $itemsDyHTML .= '</div>';
     return $itemsDyHTML;
 
 }
 
+//$id is the store_id
 function update_dynamic_table($id)
 {
     global $row;
@@ -385,8 +426,12 @@ function update_dynamic_table($id)
     $Db = Database::getInstance();
     $id = ($id) ? $id : $row['id'];
     $table = 'tb_stores_link';
-    foreach ($_REQUEST['dynamTable']['id'] as $num => $itemArr) {
+
+    foreach ($_REQUEST['dynamTable']['store_id'] as $num => $itemArr) {
+
         $update_fl = 0;
+
+        // $dyn_id == 0 on create store!
         $dyn_id = $_REQUEST['dynamTable']['id'][$num];
 
         if ($dyn_id) {
@@ -396,7 +441,7 @@ function update_dynamic_table($id)
                 $update_fl = 1;
             }
         }
-//        if ($update_fl) {//update
+        if ($update_fl) {//already exists
 //            $db_fields = array(
 //                'title' => $_REQUEST['dynamTable']['title'][$num],
 //            );
@@ -407,25 +452,43 @@ function update_dynamic_table($id)
 //            }
 //            $query = "UPDATE `{$table}` SET  " . implode(',', $updateArr) . " WHERE `id`={$dyn_id}";
 //            $Db->query($query);
-//        }
+
+        }
         else {//insert
             $db_fields = array(
                 'store_id' => $id,
-                'category_title' => $_REQUEST['dynamTable']['category_title'][$num],
             );
+
+            $category_title = "'" . $_REQUEST['dynamTable']['category_title'][$num] . "'";
+
+            $Db->make_escape($category_title);
+            $query = "SELECT obj_id FROM tb_categories_lang WHERE title = " . $category_title;
+            $res = $Db->query($query);
+
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
+            ' $query' =>  $query,
+            'Here: ' . __LINE__ . ' at ' . __FILE__
+            ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+
+            if ($res->num_rows == 1) {
+                $item = $Db->get_stream($res);
+                $db_fields['category_id'] = $item['obj_id'];
+
+                file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
+                        ' $db_fields[category_id] ' =>  $item ,
+                        'Here: ' . __LINE__ . ' at ' . __FILE__
+                    ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+            }
+
             foreach ($db_fields AS $key => $value) {
                 $db_fields[$key] = $Db->make_escape($value);
             }
 
-            $query = "SELECT FROM obj_id from tb_categories_langs WHERE title = {$db_fields['category_title']} ";
-            $res = $Db->query($query);
 
-            if ($res->num_rows == 1) {
-                $item = $Db->get_stream($query);
-                $db_fields['category_id'] = $item['obj_id'];
-            } else {
-                die("<pre>" .print_r(array($db_fields['category_id'] , 'Here: ' . __LINE__ . ' at ' . __FILE__) ,true) ."</pre>");
-            }
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/noa_log.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
+                    'rhe' => 'erg',
+                    'Here: ' . __LINE__ . ' at ' . __FILE__
+                ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
 
             $query = "INSERT INTO `{$table}` (`" . implode("`,`", array_keys($db_fields)) . "`) VALUES ('" . implode("','", array_values($db_fields)) . "')";
             $Db->query($query);
@@ -464,6 +527,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
             src="../htmleditor/ckeditor/ckeditor.js<?= ($act != 'show') ? "?t=" . time() : ""; ?>"></script>
     <script type="text/javascript" src="../_public/datetimepicker.js"></script>
     <script type="text/javascript" src="/resource/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+
     <script type="text/javascript"> if (window.parent == window) location.href = '../frames.php'; </script>
     <script type="text/javascript">
         function doDel(rowID, ordernum) {
@@ -527,26 +591,27 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
                             $(val).next().attr('onclick', newOnclick);
                         }
                     });
+
                     $($(this).closest('tr')).before($(dest_clone));
                 });
                 $('.delRowGenTable').live('click', function () {
                     $(this).closest('tr').remove();
                 });
 
-                $('.delRowGenTable').live('click', function () {
-                    var item_id = '<?=$obj_id;?>';
-
-                    if ($(this).hasClass('del_table')) {
-                        $.get('/salat2/_ajax/ajax.index.php', {
-                            'file': 'stores_service',
-                            'id': $(this).attr('id'),
-                            'act': 'delete_rows',
-                            'item_id': item_id
-                        }, function (response) {
-
-                        });
-                    }
-                });
+                //$('.delRowGenTable').live('click', function () {
+                //    var item_id = '<?//=$obj_id;?>//';
+                //
+                //    if ($(this).hasClass('del_table')) {
+                //        $.get('/salat2/_ajax/ajax.index.php', {
+                //            'file': 'stores_service',
+                //            'id': $(this).attr('id'),
+                //            'act': 'delete_rows',
+                //            'item_id': item_id
+                //        }, function (response) {
+                //
+                //        });
+                //    }
+                //});
 
                 $('.addRowGenTable').live('click', function () {
                     var table = $(this).closest('.genricTable');
@@ -560,11 +625,35 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
                     $(last_label).parent().html('<input type="text" value="' + val_lab + '" name="dynamCollected[total_count_set][' + last_index + ']" class="' + class_lab + '" style="direction:ltr;width:104px;" />');
                 });
 
+ //                var availableTutorials  =  [
+ //                    "ActionScript",
+ //                    "Bootstrap",
+ //                    "C",
+ //                    "C++",
+ //                ];
+ //                $( "#autocomplete" +
+ //                    "" +
+ // "" ).autocomplete({
+ //                    source: availableTutorials
+ //                });
+ //
+ //            //     $('#autocomplete')
+ //            //         .autocomplete('/salat2/_ajax/ajax.index.php&file=auto_complete/categories')
+ //            //     });
+ //            //
+ //            // $( "#autocomplete" ).autocomplete({
+ //            //     source: function( request, response ) {
+ //            //         $.ajax({
+ //            //             url: "/salat2/_ajax/ajax.index.php&file=auto_complete/categories",
+ //            //             success: function( data ) {
+ //            //                 response( data );
+ //            //             }
+ //            //         });
+ //            //     }, });
+});
+}
 
-            });
-        }
-
-    </script>
+</script>
     <style type="text/css">
         /* auto media load */
         .selected {
