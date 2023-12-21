@@ -14,7 +14,7 @@ class storesManager{
     public $title='';
     public $active='';
     public $open='';
-    public $bitwise='';
+    public $bitwise_array='';
     public $last_update='';
 
     function __construct($item_id,$lang=''){
@@ -40,6 +40,11 @@ class storesManager{
             }
             $this->content = "<style>*{direction: {$direction};}</style>" . $this->content;
         }
+        
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
+        '$this->content' => $this->content,
+        'Here: ' . __LINE__ . ' at ' . __FILE__
+        ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
 
 

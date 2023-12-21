@@ -9,6 +9,7 @@ $ajaxModulesArr = array(
 	"auto_complete/questions",
 	"auto_complete/user",
 	"auto_complete/company",
+	"auto_complete/categories",
 	"user_contact",
 	"content_management_service",
 	"db_sync",
@@ -36,6 +37,7 @@ $ajaxModulesArr = array(
 	"module_management_service",
 	"get_methods",
 	"product_service",
+	"stores_service",
 );
 
 session_start();

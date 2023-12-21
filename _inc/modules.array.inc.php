@@ -64,6 +64,7 @@ $modulesArr = array(
 	'home'=>0,
 	'content'=>1,	
 	'404'=>404,
+	'stores'=>60,
 
 );
 
@@ -99,6 +100,10 @@ $modulesCSSArr = array(
 	),
 	'content'=> array(
 		'modules/content',
+
+	),
+	'stores'=> array(
+		'modules/stores',
 
 	),
 
@@ -141,6 +146,10 @@ $modulesJSArr = array(
 	),
 	
 	'content' => array(
+
+
+	),
+	'stores' => array(
 
 
 	),

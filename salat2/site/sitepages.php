@@ -5,9 +5,9 @@ $this_dir = basename(dirname(__FILE__));
 
 $_ProcessID = get_module_id(basename(__FILE__),$this_dir); // 05/10/11
 
-
 if ($langID=='') $langID=$_SESSION['salatLangID'];
-include_once($_project_server_path.$_salat_path."_static/langs/processes/".$_ProcessID.".".$langID.".inc.php");
+
+include_once($_project_server_path . $_salat_path . "_static/langs/processes/" . $_ProcessID . "." . $langID . ".inc.php");
 include_once($_project_server_path.$_salat_path."_static/langs/".$_SESSION['salatLangID'].".inc.php");
 
 $file = $_project_server_path.$_salat_path . '/_static/menus/modulesArr.'.$_SESSION["salatLangID"].'.inc.php';
@@ -183,7 +183,7 @@ if($act=='new'){
 			`da_smart_dir`='{$seoFields['da_smart_dir']}',
 			`da_arr_name`='{$seoFields['da_arr_name']}'";
         $result = $Db->query($query);
-        $result->free();
+//        $result->free();
         // save da_file_name as multiLang
         $url = $Db->make_escape($_REQUEST['url']);
         $da_file_name = $Db->make_escape($_REQUEST['da_file_name']);
@@ -363,7 +363,7 @@ include($_SERVER['DOCUMENT_ROOT'].'/salat2/_inc/module_info.inc.php');
                 }else{
                     $('*[data-adv="1"]').prop('disabled','disabled').closest('tr').hide();
                     $("input[name='meta_urlalias']").prop('disabled','').closest('tr').show();;
-                }
+                }if ($langID == '') $langID = $_SESSION['salatLangID'];
 
             });
         });

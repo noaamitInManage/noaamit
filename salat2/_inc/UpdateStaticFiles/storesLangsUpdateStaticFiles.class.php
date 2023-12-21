@@ -15,7 +15,7 @@ class storesLangsUpdateStaticFiles extends moduleUpdateStaticFiles implements iU
         $this->_ProcessID = 146;
         $this->className = trim(get_class());
         $this->file_name = 'stores.inc.php';
-        $this->itemsArr_name = 'storesApp';
+        $this->itemsArr_name = 'storesArr';
         $this->name = 'סניפים';
     }
 
@@ -30,7 +30,7 @@ class storesLangsUpdateStaticFiles extends moduleUpdateStaticFiles implements iU
         $smart_dir = parent::smartLangDirctory('/_static/stores/', $_REQUEST['inner_id'], $module_lang_id);
         @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/stores.' . $languagesArr[$module_lang_id]['title'] . '.inc.php');
 
-        updateStaticFile("SELECT Main.id, Main.active, Main.open, Main.last_update, Main.bitwise, Lang.title FROM `{$this->_Proccess_Main_DB_Table}` AS Main
+        updateStaticFile("SELECT Main.id, Main.active, Main.open, Main.last_update, Main.bitwise_array, Lang.title FROM `{$this->_Proccess_Main_DB_Table}` AS Main
 						         	LEFT JOIN `{$this->_Proccess_Main_DB_Table}_lang` AS Lang ON (
 						               			Main.`id`=Lang.`obj_id`
 						               		) WHERE Lang.lang_id={$module_lang_id}
