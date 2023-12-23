@@ -81,6 +81,39 @@ class storesManager{
 
     }
     //-------------------------------------------------------------------------------------------------------------------//
+
+    //$item_id is the store_id
+    //return the categories
+    public static function getStoreCategories($item_id) {
+        
+        $main_table = 'tb_categories';
+        $lang_table = 'tb_categories_lang';
+        $store_link = 'tb_stores_link';
+
+        $Db = Database::getInstance();
+
+        //get categories of the store
+        $query = "SELECT Main.id, Main.media_id, Main.active, Main.last_update, Lang.title
+                    FROM `{$store_link}` as Store LEFT JOIN `{$main_table}` AS Main
+                    ON Store.`category_id` = Main.`id` 
+					LEFT JOIN `{$lang_table}` AS Lang ON (
+            Main.`id`=Lang.`obj_id`
+        ) WHERE Store.`store_id`={$item_id}";
+
+        $res = $Db->query($query);
+        $categories = [];
+        while($row = $Db->get_stream($res)) {
+            if ($row[id] == 0) {
+                continue;
+            }
+            else {
+                $categories[] = $row;
+            }
+
+        }
+        return $categories;
+        
+    }
 }
 
 ?>

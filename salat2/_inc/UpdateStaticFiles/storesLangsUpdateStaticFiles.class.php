@@ -29,7 +29,6 @@ class storesLangsUpdateStaticFiles extends moduleUpdateStaticFiles implements iU
 
         $smart_dir = parent::smartLangDirctory('/_static/stores/', $_REQUEST['inner_id'], $module_lang_id);
         @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/stores.' . $languagesArr[$module_lang_id]['title'] . '.inc.php');
-
         updateStaticFile("SELECT Main.id, Main.active, Main.open, Main.last_update, Main.bitwise_array, Lang.title FROM `{$this->_Proccess_Main_DB_Table}` AS Main
 						         	LEFT JOIN `{$this->_Proccess_Main_DB_Table}_lang` AS Lang ON (
 						               			Main.`id`=Lang.`obj_id`
