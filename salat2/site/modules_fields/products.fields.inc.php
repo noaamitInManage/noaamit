@@ -206,6 +206,40 @@ $fieldsArr = array(
         ),
     ),
 
+    'dynamic_table'=> array(
+        'title' => 'טבלה דינאמית',
+        'width' => '',
+        'type' => 'string', // choose: int|float|string
+        'table' => '',
+        'comments' => array(
+            'show' => 'י',
+            'add' => '',
+            'new' => '',
+        ),
+        'input' => array(
+            'type' => 'label', // choose: none|text|select|radio|checkbox|timepicker|datepicker|datetimepicker|htmltext(WYSIWYG)
+            'extra_after' => '', // extra code/text after element tag
+            'extra_html' => '', // extra attribues for the element tag
+            'searchable'=>false // genric search
+        ),
+        'value' => array(
+            'show' => array( // `key` is the action name
+                'source' => 'none', // choose: none|array|function|db|var, none for no visibility
+                'details' => "", // value is "{VALUE}" (without quotes)
+            ),
+            'new' => array( // `key` is the action name
+                'source' => 'function', // choose: none|array|function|db|var|path, none for no visibility
+                'dummy' => array('value' => '', 'text' => ''), // e.g. "Please choose category"
+                'details' => 'draw_dynamic_table()', // value is "{VALUE}" (without quotes) ($id,$table_link='',$main_table='',$field_id_name='',$and_where=''){
+            ),
+            'after' => array( // `key` is the action name
+                'source' => 'post', // choose: none|post|array|function|db|var, none for no visibility
+                'dummy' => array('value' => '', 'text' => ''), // e.g. "Please choose category"
+                'details' => "", // value is "{VALUE}" (without quotes)
+            ),
+        ),
+    ),
+
 
 
 );

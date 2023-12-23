@@ -95,6 +95,7 @@ $obj_id = (int)$_REQUEST['id'];
 
 // if ($obj_id) is true => edit. else => add.
 if ($act == 'new') {
+
     if ($obj_id) {
         //get info about obj_id from the main db
         $query = "SELECT * FROM {$_Proccess_Main_DB_Table} WHERE id='{$obj_id}'";
@@ -161,6 +162,10 @@ if ($act == 'new') {
         if ($_Proccess_Has_Ordering_Action) {
             setMaxShowOrder($_Proccess_Main_DB_Table, 'order_num', 'id', $_REQUEST['inner_id']);
         }
+    }
+
+    if (isset($_REQUEST['dynamTable']) && $_REQUEST['dynamTable']) {
+        update_dynamic_table($_REQUEST['inner_id']);
     }
 
     if ($_Proccess_Has_MetaTags) {
@@ -275,23 +280,276 @@ function module_updateStaticFiles()
 
 }
 
+function draw_dynamic_table($table_link = '', $main_table = '', $field_id_name = '', $and_where = '')
+{
+    global $langID, $row;
+
+    $Db = Database::getInstance();
+
+    $itemsDyHTML = '';
+    if ($langID == '2') { // 2 = hebrew
+        $dirStyle = 'rtl';
+    } else {
+        $dirStyle = 'ltr';
+    }
+    $main_table = "tb_products";
+    $table_link = "tb_products_link";
+
+    //if row exists , the $row['id'] is store_id, else ''
+    $and_where = "WHERE Main.id='{$row['id']}'";
+    $field_id_name = 'product_id';
+    $itemsDyHTML .= '<div class="dynamicTableItems">';
+
+
+    //get tb_stores join tb_stores_link
+    $dynamSql = "SELECT Link.*
+					FROM `{$table_link}` AS Link
+						LEFT JOIN `{$main_table}` as Main ON(
+							Link.`{$field_id_name}`=Main.id
+						)
+						 {$and_where}";
+    $dynamRes = $Db->query($dynamSql);
+
+
+    // get categories
+    $tb_name='tb_categories_lang';
+    $query="SELECT obj_id as id, title FROM `{$tb_name}`";
+    $result=$Db->query($query);
+    $categories=array();
+
+    while($row = $Db->get_stream($result)) {
+        $categories[$row['id']] = $row['title'];
+    }
+
+    // if the store has rows -> this is update mode
+    if ($dynamRes->num_rows > 0) {
+        $count_index = 0;
+        $cells = array();
+
+// for example :
+//        [$item] => Array
+//        (
+//            [id] => 37
+//            [store_id] => 42
+//            [category_id] => 1
+//        )
+        // id is the id on the link table , store_id is the id of the store in tb_stores, category_id is obj_id on tb_categories_lang
+        while ($item = $Db->get_stream($dynamRes)) {
+
+            $order_num = ($item['order_num']) ? $item['order_num'] : $count_index + 1;
+
+            //link id
+            $cells[$count_index][0] = array(
+                'type' => 'text',
+                'value' => $item['id'],
+                'name' => 'dynamTable[id][' . $count_index . ']',
+                'direction' => $dirStyle,
+            );
+
+            //category title
+            $cells[$count_index][1] = array(
+                'type' => 'text',
+                'value' => $categories[$item['category_id']],
+                'name' => 'dynamTable[category_title][' . $count_index . ']',
+                'direction' => $dirStyle,
+            );
+
+            //category_id of the category
+            $cells[$count_index][2] = array(
+                'type' => 'text',
+                'value' => $item['category_id'],
+                'name' => 'dynamTable[category_id][' . $count_index . ']',
+                'direction' => $dirStyle,
+            );
+
+            //store_id
+            $cells[$count_index][3] = array(
+                'type' => 'hidden',
+                'value' => $item['product_id'],
+                'name' => 'dynamTable[product_id][' . $count_index . ']',
+                'direction' => $dirStyle
+            );
+
+            //delete button
+            $cells[$count_index][4] = array(
+                'extra' => 'id="' . $item['id'] . '"',
+                'class' => 'del_table colors_f',
+            );
+            $count_index++;
+        }
+    }
+
+    // new store - create a new store (if $row['id'] is empty ,so the $dynamRes->num_rows = 0)
+    else{
+        $count_index = 0;
+
+        //link id
+        $cells[$count_index][0] = array(
+            'type' => 'text',
+            'value' => '',
+            'name' => 'dynamTable[id][' . $count_index . ']',
+            'direction' => $dirStyle,
+        );
+
+        //category title
+        $cells[$count_index][1] = array(
+            'type' => 'text',
+            'value' => '',
+            'name' => 'dynamTable[category_title][' . $count_index . ']',
+            'direction' => $dirStyle,
+        );
+
+        //category_id of the category
+        $cells[$count_index][2] = array(
+            'type' => 'text',
+            'value' => '',
+            'name' => 'dynamTable[category_id][' . $count_index . ']',
+            'direction' => $dirStyle,
+        );
+
+        //store_id
+        $cells[$count_index][3] = array(
+            'type' => 'hidden',
+            'value' =>  '',
+            'name' => 'dynamTable[product_id][' . $count_index . ']',
+            'direction' => $dirStyle
+        );
+
+        //delete button
+        $cells[$count_index][4] = array(
+            'extra' => 'id="' . $count_index . '"',
+            'class' => 'del_table colors_f',
+        );
+    }
+
+    $itemsDyHTML .= make_dynamic_table($cells, array('קוד','קטגוריה', 'קוד קטגוריה' ), true, true, true);
+
+    $itemsDyHTML .= '</div>';
+    return $itemsDyHTML;
+
+}
+
+//$id is the store_id
+function update_dynamic_table($id)
+{
+    global $row;
+
+    $Db = Database::getInstance();
+
+    //id = 0 id the store is new, else - update
+    $id = ($id) ? $id : $row['id'];
+    $table = 'tb_products_link';
+
+    // $_REQUEST['dynamTable']['id'] is an array of [num row => link id]
+    foreach ($_REQUEST['dynamTable']['id'] as $num => $itemArr) {
+        $update_fl = 0;
+
+        // $dyn_id is empty if the row is empty, else it is the
+        $dyn_id = $_REQUEST['dynamTable']['id'][$num];
+
+        //already line exists
+        if ($dyn_id) {
+            $query = "SELECT id FROM `{$table}` WHERE id={$dyn_id}";
+            $col_result = $Db->query($query);
+
+            if ($col_result->num_rows > 0) {
+                $update_fl = 1;
+            }
+        }
+
+
+        if ($update_fl) {//already exists
+
+            $category_title = "'" . $_REQUEST['dynamTable']['category_title'][$num] . "'";
+
+            $Db->make_escape($category_title);
+            $query = "SELECT obj_id FROM tb_categories_lang WHERE title = " . $category_title;
+            $res = $Db->query($query);
+
+            $db_fields = array();
+
+            if ($res->num_rows == 1) {
+                $item = $Db->get_stream($res);
+                $db_fields['category_id'] = $item['obj_id'];
+            } else {
+                $db_fields['category_id'] = 0;
+            }
+
+            $updateArr = array();
+            foreach ($db_fields as $k => $v) {
+                $v = $Db->make_escape($v);
+                $updateArr[] = "`$k` = '{$v}' ";
+            }
+
+            $query = "UPDATE `{$table}` SET  " . implode(',', $updateArr) . " WHERE `id`={$dyn_id}";
+
+            $Db->query($query);
+
+        }
+        else {//insert
+            $db_fields = array(
+                'product_id' => $id,
+            );
+
+            $category_title = "'" . $_REQUEST['dynamTable']['category_title'][$num] . "'";
+
+            $Db->make_escape($category_title);
+            $query = "SELECT obj_id FROM tb_categories_lang WHERE title = " . $category_title;
+            $res = $Db->query($query);
+
+            if ($res->num_rows == 1) {
+                $item = $Db->get_stream($res);
+                $db_fields['category_id'] = $item['obj_id'];
+            }
+
+            foreach ($db_fields AS $key => $value) {
+                $db_fields[$key] = $Db->make_escape($value);
+            }
+
+            $query = "INSERT INTO `{$table}` (`" . implode("`,`", array_keys($db_fields)) . "`) VALUES ('" . implode("','", array_values($db_fields)) . "')";
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
+            '$query' => $query,
+            'Here: ' . __LINE__ . ' at ' . __FILE__
+            ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+            $Db->query($query);
+        }
+    }
+}
+
+
 include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
 ?>
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
 <html dir="<?php echo $_LANG['salat_dir']; ?>">
 <head>
     <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"/>
+    <link rel="StyleSheet" href="../_public/bootstrap.min.css" type="text/css">
+    <link rel="StyleSheet" href="../_public/bootstrap-rtl.min.css" type="text/css">
     <link rel="StyleSheet" href="../_public/main.css" type="text/css">
     <link rel="StyleSheet" href="../_public/faq.css" type="text/css">
+    <link rel="stylesheet" href="../_public/x-editable/bootstrap3-editable/css/bootstrap-editable.css" type="text/css"/>
+    <link rel="StyleSheet" href="../_public/colorpicker.css" type="text/css">
+    <link rel="stylesheet" href="/_media/css/plugins/jquery.autocomplete.css" type="text/css">
+    <link rel="stylesheet" href="../_public/select2/css/select2.css" type="text/css">
+    <link rel="stylesheet" href="/salat2/_public/jquery-ui.css">
+
+    <link rel="stylesheet" media="screen,print" href="/resource/uploadify/uploadify.css" type="text/css"/>
+
+    <script type="text/javascript" src="../_public/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../_public/jquery-ui.js"></script>
+    <script type="text/javascript" src="/_media/js/plugins/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="../_public/colorpicker.min.js"></script>
+    <script type="text/javascript" src="../_public/select2/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="../_public/bootstrap.min.js"></script>
+    <script type="text/javascript"
+            src="../_public/x-editable/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="../_public/media_select.js"></script>
     <script type="text/javascript"
             src="../htmleditor/ckeditor/ckeditor.js<?= ($act != 'show') ? "?t=" . time() : ""; ?>"></script>
     <script type="text/javascript" src="../_public/datetimepicker.js"></script>
-    <script type="text/javascript" src="../_public/jquery1.8.min.js"></script>
-    <script type="text/javascript" src="../_public/media_select.js"></script>
     <script type="text/javascript" src="/resource/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
 
     <script type="text/javascript"> if (window.parent == window) location.href = '../frames.php'; </script>
-
     <script type="text/javascript">
         function doDel(rowID, ordernum) {
             if (confirm("<?=$_LANG['DEL_MESSAGE'];?>")) {
@@ -301,10 +559,106 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
         }
 
         $(function () {
+            initAutoCompleteCategories();
+
+            $('.addRowGenTable').live('click', function () {
+
+                var genTable;
+                if ($(this).closest('tr').parent().hasClass('genricTable')) {
+                    genTable = $(this).closest('tr').parent();
+                } else {
+                    genTable = $(this).closest('tr').parent().parent();
+                }
+                var btn = $(this);
+                var tr_row = $(this).closest('tr').prev();
+                var dest_clone = $(tr_row).clone();
+                var new_index = parseInt($(genTable).attr('last_index')) + 1;
+                $(genTable).attr('last_index', new_index); //update the index
+                //go through each td in NEW row and update the Name to new index
+                $.each($(dest_clone).find('td').children(), function (key, val) {
+                    if ($(val).attr('type') == 'text' || $(val).attr('type') == 'hidden' || $(val).is("select")) {
+                        $(val).val(''); //empty value of clone..
+                    }
+
+                    if ($(val).attr('type') == 'checkbox' || $(val).attr('type') == 'radio') {
+                        $(val).prop('checked', false);
+                    }
+
+                    var old_name = $(val).attr('name');
+                    var new_name = '';
+                    if (old_name !== undefined && old_name != '') {
+                        var pos = 0;
+                        pos = old_name.indexOf("[");
+                        if (pos > -1) {
+                            var res = old_name.substr(0, (old_name.length - 2));
+                            $(val).attr('name', res + new_index + ']');
+                            new_name = res + new_index + ']';
+                        }
+                    }
+
+                    if ($(val).attr('type') == "hidden") {
+                        $(val).val('');
+                    }
+                    //update the name inside onlick for date(time)picker only
+                    if ($(val).next().attr('onclick') != undefined && $(val).next().attr('onclick') != '') {
+                        var newOnclick = $(val).next().attr('onclick');
+                        newOnclick = newOnclick.replace("FIELD_" + old_name, "FIELD_" + new_name);
+                        $(val).attr('id', "FIELD_" + new_name);
+                        $(val).next().attr('onclick', newOnclick);
+                    }
+                });
+
+                $($(this).closest('tr')).before($(dest_clone));
+
+                var new_row = $(this).closest('tr');
+
+                //need to find the input attribute in the row that starts with dynamTable[category_title]
+                // find - find all the children of the new row that has
+                // ( "tag_name[attribute^='value']" )
+                //tag_name = input, attribute = name, value = dynamTable[category_title]
+                // .first() because find returns an array
+                initAutoCompleteCategories(new_row.find('input[name^="dynamTable[category_title]"]').first());
+
+            });
+
+
+
+            $('.delRowGenTable').live('click', function () {
+                $(this).closest('tr').remove();
+            });
+
+            // delete DYNAMIC items and features
+            $('.delRowGenTable').live('click', function () {
+                var item_id = '<?=$obj_id;?>';
+                if ($(this).hasClass('del_table')) {
+                    $.get('/salat2/_ajax/ajax.index.php', {
+                        'file': 'product_service',
+                        'id': $(this).attr('id'),
+                        'act': 'delete_rows',
+                        'item_id': item_id
+                    }, function (response) {
+
+                    });
+                }
+            });
+
+
+            // change to TEXT or LABEL field at stock...
+            $('.addRowGenTable').live('click', function () {
+                var table = $(this).closest('.genricTable');
+                var last_index = $(table).attr('last_index');
+                var last_label = document.getElementsByName('dynamCollected[total_count][' + last_index + ']')[0];
+                var val_lab = $(last_label).prev().html();
+                if (!val_lab || val_lab == undefined) {
+                    val_lab = $(last_label).val();
+                }
+                var class_lab = $(last_label).attr('class');
+                $(last_label).parent().html('<input type="text" value="' + val_lab + '" name="dynamCollected[total_count_set][' + last_index + ']" class="' + class_lab + '" style="direction:ltr;width:104px;" />');
+            });
 
             //Orders
             $('.order').on('click', function () {
-                var order_num = $($(this).parent().find('.input_order')).val();
+                var order_num = $($(this).parent().find('.INPUT_ORDER')).val();
                 var params = '<?=$fwParams;?>';
                 $.post("/salat2/_ajax/ajax.index.php", '&file=product_service&act=new_order&id=' + $(this).attr('product_id') + '&order_num=' + order_num, function (result) {
                     if (result.msg == 'OK') {
@@ -315,6 +669,25 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
 
         });
 
+        function initAutoCompleteCategories(element_category) {
+
+            var autocomplete_elm;
+            if (element_category && element_category.length) {
+                autocomplete_elm = element_category;
+            } else {
+                autocomplete_elm = $('input[name^="dynamTable[category_title]"]');
+            }
+            autocomplete_elm.autocomplete('/salat2/_ajax/ajax.index.php', {
+                'extraParams': {
+                    'file': 'auto_complete/categories',
+                    'action': 'get_all_categories',
+                }
+            }).result(function (event, data) {
+                let array_data = data[0].split('.')
+                $(this).val(array_data[1]);
+                $(this).closest('tr').find('input[name^="dynamTable[category_id]"]').val(array_data[0])
+            });
+        }
     </script>
     <style type="text/css">
         /* auto media load */
