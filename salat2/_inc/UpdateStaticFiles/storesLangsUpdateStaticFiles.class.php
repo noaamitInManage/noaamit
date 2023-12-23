@@ -81,6 +81,12 @@ class storesLangsUpdateStaticFiles extends moduleUpdateStaticFiles implements iU
     }
 
 
+    public static function getStoresArr() {
+
+    }
+
+
+
 }
 
 //---------------------------------------------------------------------------//

@@ -1,11 +1,19 @@
+<?
+include_once($_SERVER['DOCUMENT_ROOT'].'/_modules/_inc/header.php');
+$store = new storesManager($objID);
+?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="he">
-<head>
-    <? include_once($_SERVER['DOCUMENT_ROOT'].'/_inc/layout/headers.inc.php'); ?>
+<link rel="stylesheet" href="<?php echo '/_media';?>/css/modules/stores.css">
 </head>
-<body>
-"hello"
-</body>
-</html>
+    <body>
+        <img id="site_logo" src=<?php echo $full_path;?> alt='Image'>
+        <div class="container"
+        <ul>
+            <?php foreach($store as $key=>$data):?>
 
+                <li>  <?php echo $key . '=>' .$data;?></li>
+            <?php endforeach;?>
+        </ul>
+        </div>
+    </body>
+</html>

@@ -27,7 +27,7 @@ class productsManager{
         }
         include($_SERVER['DOCUMENT_ROOT'].'/_static/products/'.get_item_dir($item_id).'/'.$lang.'/product-'.$item_id.'.inc.php');//productsArr
 
-        foreach ($productsArr AS $key=>$value){
+        foreach ($productArr AS $key=>$value){
             if(property_exists($this,$key)){
                 $this->{$key}=$value;
             }

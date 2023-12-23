@@ -17,15 +17,19 @@ class storesManager{
     public $bitwise_array='';
     public $last_update='';
 
+    //$item_id of specific store, create an instance of storesManager with the data of the store
     function __construct($item_id,$lang=''){
         global $languagesArr;
         $this->ts = time();
         if(!$lang){
             $lang=(isset($_SESSION['lang']) && ($_SESSION['lang'])) ? $_SESSION['lang'] : default_lang;
         }
-        include($_SERVER['DOCUMENT_ROOT'].'/_static/stores/'.get_item_dir($item_id).'/'.$lang.'/store-'.$item_id.'.inc.php');//productsArr
 
-        foreach ($storesArr AS $key=>$value){
+        //the file inside _static/stores/{num_dir}/{lang}/store-{store_id}.inc.php
+        include($_SERVER['DOCUMENT_ROOT'].'/_static/stores/'.get_item_dir($item_id).'/'.$lang.'/store-'.$item_id.'.inc.php');//$storesArr
+
+        //set the vakue of the fields
+        foreach ($storeArr AS $key=>$value){
             if(property_exists($this,$key)){
                 $this->{$key}=$value;
             }
@@ -40,11 +44,7 @@ class storesManager{
             }
             $this->content = "<style>*{direction: {$direction};}</style>" . $this->content;
         }
-        
-        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
-        '$this->content' => $this->content,
-        'Here: ' . __LINE__ . ' at ' . __FILE__
-        ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+
     }
 
 
@@ -71,6 +71,15 @@ class storesManager{
     //-------------------------------------------------------------------------------------------------------------------//
 
 
+    public static function getAll($lang='') {
+        if(!$lang){
+            $lang=(isset($_SESSION['lang']) && ($_SESSION['lang'])) ? $_SESSION['lang'] : default_lang;
+        }
+
+        $stores = siteFunctions::get_cached_moduleArr('stores.' . $lang, 'storesArr', 'storesLangsUpdateStaticFiles', 'storesLangsUpdateStaticFiles', 'getStoresArr', 2);
+        return $stores;
+
+    }
     //-------------------------------------------------------------------------------------------------------------------//
 }
 

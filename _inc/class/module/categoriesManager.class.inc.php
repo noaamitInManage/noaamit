@@ -25,7 +25,7 @@ class categoriesManager{
         }
         include($_SERVER['DOCUMENT_ROOT'].'/_static/categories/'.get_item_dir($item_id).'/'.$lang.'/category-'.$item_id.'.inc.php');//$categoriesArr
 
-        foreach ($categoriesArr AS $key=>$value){
+        foreach ($categoryArr AS $key=>$value){
             if(property_exists($this,$key)){
                 $this->{$key}=$value;
             }
