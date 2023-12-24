@@ -70,6 +70,35 @@ class categoriesManager{
 
     //-------------------------------------------------------------------------------------------------------------------//
 
+    //$item_id is obj_id on tb_categories_lang
+    public static function getCategoryProducts($item_id) {
+        $main_table = 'tb_products';
+        $lang_table = 'tb_products_lang';
+        $link_table = 'tb_products_link';
+
+        $Db = Database::getInstance();
+
+        //get category data and products
+        $query = "SELECT Main.id, Main.media_id, Main.active, Main.last_update, Main.order_num, Lang.title, Lang.description
+                    FROM `{$link_table}` as Link LEFT JOIN `{$main_table}` AS Main
+                    ON Link.`product_id` = Main.`id`
+                    LEFT JOIN `{$lang_table}` AS Lang ON (
+            Main.`id`=Lang.`obj_id`
+        ) WHERE Link.`category_id`={$item_id}";
+
+        $res = $Db->query($query);
+        $products = [];
+
+        while($row = $Db->get_stream($res)) {
+            if ($row['id'] != 0) {
+                $products[] = $row;
+            }
+
+        }
+
+        return $products;
+
+    }
 
     //-------------------------------------------------------------------------------------------------------------------//
 }

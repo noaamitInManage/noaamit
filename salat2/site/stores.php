@@ -14,16 +14,7 @@ $_ProcessID = get_module_id(basename(__FILE__), $this_dir); // 05/10/11
 
 if ($langID == '') $langID = $_SESSION['salatLangID'];
 
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
-'$_SESSION[salatLangID]' => [$_SESSION['salatLangID'], $langID],
-'Here: ' . __LINE__ . ' at ' . __FILE__
-), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
 
-include_once($_project_server_path . $_salat_path . "_static/langs/processes/" . $_ProcessID . "." . $langID . ".inc.php");
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
-'1' => $_project_server_path . $_salat_path . "_static/langs/processes/" . $_ProcessID . "." . $langID . ".inc.php",
-'Here: ' . __LINE__ . ' at ' . __FILE__
-), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
 include_once($_project_server_path . $_salat_path . "_static/langs/" . $_SESSION['salatLangID'] . ".inc.php");
 
 $file = $_project_server_path . $_salat_path . '/_static/menus/modulesArr.' . $_SESSION["salatLangID"] . '.inc.php';
