@@ -214,11 +214,13 @@ class Seo extends BaseManager
 
                     $holder = array_pop($tmpArr);
                     $tmpArr[] = self::get_item_dir($obj);
-
+                    
+                    
                     if ($this->multi_lang_site) {
                         $tmpArr[] = $this->lang;
                     }
                     $tmpArr[] = $holder;
+
                     //$tmpArr[]=$holder;
                     $moduleArr['directAccess']['file'] = implode('/', $tmpArr);
                 }

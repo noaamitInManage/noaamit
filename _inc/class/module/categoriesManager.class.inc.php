@@ -84,7 +84,7 @@ class categoriesManager{
                     ON Link.`product_id` = Main.`id`
                     LEFT JOIN `{$lang_table}` AS Lang ON (
             Main.`id`=Lang.`obj_id`
-        ) WHERE Link.`category_id`={$item_id}";
+        ) WHERE Link.`category_id`={$item_id} ORDER BY Main.`order_num`";
 
         $res = $Db->query($query);
         $products = [];

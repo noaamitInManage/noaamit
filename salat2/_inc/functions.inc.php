@@ -1501,7 +1501,7 @@ function drawBitwiseFlagSelection($flagOptions, $flagValue)
 // BASED ON: http://www.php.net/manual/en/language.operators.bitwise.php#90514
 function is_bitflag_set($val, $flag)
 {
-    return (((int)$val & (int)$flag) === (int)$flag);
+    return (((int)$val & (int)$flag) == (int)$fla=g);
 }
 
 function showColorPicked($color)

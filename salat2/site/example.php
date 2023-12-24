@@ -8,6 +8,8 @@
 
 include_once("../_inc/config.inc.php");
 
+//[$_SERVER[DOCUMENT_ROOT]] => /home/noaainmanage/public_html
+//[$_project_server_path] => /home/noaainmanage/public_html/
 $this_dir = basename(dirname(__FILE__));
 
 $_ProcessID = get_module_id(basename(__FILE__), $this_dir); // 05/10/11
@@ -392,10 +394,13 @@ function update_dynamic_table($id)
 
     $id = ($id) ? $id : $row['id'];
     $table = 'tb_salat_examples_link';
+
+    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
+            '$_REQUEST[dynamTable][id]' => $_REQUEST['dynamTable'],
+            'Here: ' . __LINE__ . ' at ' . __FILE__
+        ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
     foreach ($_REQUEST['dynamTable']['id'] as $num => $itemArr) {
-        if(in_array($_SERVER['REMOTE_ADDR'],array('62.219.212.139','81.218.173.175','207.232.22.164'))) {
-            die('<hr /><pre>' . print_r(array($_REQUEST['dynamTable']['id']), true).' - Here: ' . __LINE__ . ' at ' . __FILE__ . ' '.time().'</pre><hr />');
-        }
+
         $update_fl = 0;
         $dyn_id = $_REQUEST['dynamTable']['id'][$num];
         if ($dyn_id) {
@@ -778,6 +783,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
                         $(val).next().attr('onclick', newOnclick);
                     }
                 });
+
                 $($(this).closest('tr')).before($(dest_clone));
             });
             $('.delRowGenTable').live('click', function () {
@@ -840,7 +846,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
             get_colors();
 
 
-            //change to TEXT or LABEL field at stock...
+            // change to TEXT or LABEL field at stock...
             $('.addRowGenTable').live('click', function () {
                 var table = $(this).closest('.genricTable');
                 var last_index = $(table).attr('last_index');

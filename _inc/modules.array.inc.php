@@ -67,6 +67,7 @@ $modulesArr = array(
 	'products'=>40,
 	'categories'=>50,
 	'stores'=>60,
+	'contacts'=>70,
 
 );
 

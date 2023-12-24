@@ -16,7 +16,7 @@ $store_properties = array(
     <div class="row">
 
         <div class="col-md-6">
-            <h3><?php echo  date('d.m.Y',$store->last_update);?></h3>
+            <h1><?php echo  $store->title;?></h1>
         </div>
 
     </div>
@@ -81,15 +81,15 @@ $store_properties = array(
 
             </div>
             <?php foreach($categories as $category):?>
-
                 <?
-
                 $url = $Seo->getUrl(array("mdl_id"=>$modulesArr['categories']), $category['id']);
                 $category_icon = new mediaManager($category['media_id']);
                 $icon_path =  $category_icon->path;
                 ?>
                 <div class="card card-body mb-3">
-                    <img id="site_logo" src=<?php echo $icon_path;?> alt='Image'>
+                    <?php if ($icon_path != ''): ?>
+                        <img id="site_logo" src=<?php echo $icon_path;?> alt='Image'>
+                    <?php endif; ?>
                     <h4 class="card-title"><?php echo $category['title'];?></h4>
                     <a href="/<?php echo $url;?>"> <?php echo 'More';?></a>
                 </div>
