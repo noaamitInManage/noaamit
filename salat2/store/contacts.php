@@ -1,6 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+
 include_once("../_inc/config.inc.php");
 
 $this_dir = basename(dirname(__FILE__));
@@ -135,13 +134,17 @@ if ($act == 'new') {
 } elseif ($act == 'after') {
 //die('<hr /><pre>' . print_r($_REQUEST, true) . '</pre><hr />');
 
-    if ($obj_id) {  // ### UPDATE QUERY ###
+    if ($obj_id) {  // ### UPDATE QUERY ##
 
         $_REQUEST['inner_id'] = $obj_id;
         if ($_Proccess_Has_MultiLangs) {
             multi_lang_update_query($_Proccess_Main_DB_Table, $_REQUEST['inner_id'], $fieldsArr, $module_lang_id);
         } else {
-            $query = "UPDATE {$_Proccess_Main_DB_Table} SET " . fields_implode(',', $fieldsArr, $_REQUEST, true) . " WHERE id='{$obj_id}'";
+            $query = "UPDATE {$_Proccess_Main_DB_Table} SET `done` = '1'" . " WHERE id='{$obj_id}'";
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
+            '$query' => $query,
+            'Here: ' . __LINE__ . ' at ' . __FILE__
+            ), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
             $result = $Db->query($query);
         }
     }
@@ -282,25 +285,34 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
 <html dir="<?php echo $_LANG['salat_dir']; ?>">
 <head>
     <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"/>
+    <link rel="StyleSheet" href="../_public/bootstrap.min.css" type="text/css">
+    <link rel="StyleSheet" href="../_public/bootstrap-rtl.min.css" type="text/css">
     <link rel="StyleSheet" href="../_public/main.css" type="text/css">
     <link rel="StyleSheet" href="../_public/faq.css" type="text/css">
+    <link rel="stylesheet" href="../_public/x-editable/bootstrap3-editable/css/bootstrap-editable.css" type="text/css"/>
+    <link rel="StyleSheet" href="../_public/colorpicker.css" type="text/css">
+    <link rel="stylesheet" href="/_media/css/plugins/jquery.autocomplete.css" type="text/css">
+    <link rel="stylesheet" href="../_public/select2/css/select2.css" type="text/css">
+    <link rel="stylesheet" href="/salat2/_public/jquery-ui.css">
+
+    <link rel="stylesheet" media="screen,print" href="/resource/uploadify/uploadify.css" type="text/css"/>
+
+    <script type="text/javascript" src="../_public/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../_public/jquery-ui.js"></script>
+    <script type="text/javascript" src="/_media/js/plugins/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="../_public/colorpicker.min.js"></script>
+    <script type="text/javascript" src="../_public/select2/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="../_public/bootstrap.min.js"></script>
+    <script type="text/javascript"
+            src="../_public/x-editable/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="../_public/media_select.js"></script>
     <script type="text/javascript"
             src="../htmleditor/ckeditor/ckeditor.js<?= ($act != 'show') ? "?t=" . time() : ""; ?>"></script>
     <script type="text/javascript" src="../_public/datetimepicker.js"></script>
-    <script type="text/javascript" src="../_public/jquery1.8.min.js"></script>
-    <script type="text/javascript" src="../_public/media_select.js"></script>
     <script type="text/javascript" src="/resource/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
 
     <script type="text/javascript"> if (window.parent == window) location.href = '../frames.php'; </script>
-    <script type="text/javascript">
-        function doDel(rowID, ordernum) {
-            if (confirm("<?=$_LANG['DEL_MESSAGE'];?>")) {
-                <?    $lang_fw = ($_Proccess_Has_MultiLangs) ? '&lang_id=' . $module_lang_id : '';?>
-                document.location.href = "?act=del<?=$lang_fw;?>&id=" + rowID + "&order_num=" + ordernum;
-            }
-        }
 
-    </script>
     <style type="text/css">
         /* auto media load */
         .selected {
@@ -333,8 +345,6 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
 <div class="titleTxt"><?php echo $_Proccess_Title; ?></div>
 <input type="button" class="buttons" onclick="javascript: location.href='?act=show<?php echo $fwParams; ?>';"
        value="הצג הכל"/>
-<input type="button" class="buttons" onclick="javascript: location.href='?act=new<?php echo $fwParams; ?>';"
-       value="הוסף חדש"/>
 <div class="maindiv">
 
 
@@ -354,18 +364,10 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
                 $c = ($i % 2 == 0) ? 'even' : 'odd'; ?>
                 <tr class="normTxt <?= $c ?>">
                     <?php $columns_count = fields_get_show_rows_fields($fieldsArr, $row, false); ?>
-                    <?php if ($_Proccess_Has_Ordering_Action) { ?>
-                        <td class="dottTblS"><?php echo outputOrderingArrows($count, $i, 'id', $row['id'], $row['order_num']); ?></td>
-                    <?php } ?>
                     <td class="dottTblS">
-                        <?php if (!in_array($row['id'], $_Proccess_HC_RowsID_Arr_NOT_EDITABLE)) { ?>
-                            <input type="button" class="buttons" value="<?=$_LANG['BTN_EDIT'];?>"
-                                   onclick="javascript: location.href='?act=new&id=<?php echo $row['id'] . $fwParams; ?>';"/> &nbsp;
-                        <?php }
-                        if (!in_array($row['id'], $_Proccess_HC_RowsID_Arr_NOT_DELETABLE)) { ?>
-                            <input type="button" class="buttons red" value="<?=$_LANG['BTN_DEL'];?>"
-                                   onclick="javascript:doDel(<?php echo $row['id']; ?>, '<?php echo (int)$row['order_num'] . $fwParams; ?>');"/> &nbsp;
-                        <?php } ?>
+                        <input type="button" class="buttons" id="contact_done" onclick="javascript: location.href='?act=after&id=<?php echo $row['id']; ?>';"
+                               contact_id="<?php echo $row['id'] . $fwParams; ?>" value="עדכן לטופל"/>
+&nbsp;
                     </td>
                 </tr>
             <?php }
