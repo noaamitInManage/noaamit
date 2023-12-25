@@ -20,6 +20,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . "/_static/links.inc.php"); // load Arra
 
 $cron_name = "open_close_stores";
 
+//https://noaa.inmanage.com/_crons/open_close_stores_cron.cron.php?cp=12345678 - start the cron manually
 $Cron = new cronsManager($cron_name);
 if ($Cron->is_running(1)) {
     echo "<pre>IN PROGRESS</pre>";
@@ -32,10 +33,6 @@ $table = 'tb_stores';
 
 $Db = Database::getInstance();
 $query = "UPDATE {$table} SET `open` = !`open` WHERE `active` = 1";
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/or_logs.txt', DateTime::createFromFormat('U.u',sprintf("%.6F", microtime(true)))->format("m-d-Y H:i:s.u")." : ". print_r(array(
-'$query' => $query,
-'Here: ' . __LINE__ . ' at ' . __FILE__
-), true) . PHP_EOL, FILE_APPEND | LOCK_EX);
 $Db->query($query);
 $UpdateStatic = new storesLangsUpdateStaticFiles();
 $UpdateStatic->updateStatics();
