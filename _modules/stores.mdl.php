@@ -2,7 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'].'/_modules/_inc/header.php');
 $store = new storesManager($objID);
 $categories = storesManager::getStoreCategories($objID);
-
+$weather = $store->getWeather();
 $store_properties = array(
     1 => 'koser',
     2 => 'shipping',
@@ -11,20 +11,31 @@ $store_properties = array(
 
 ?>
 
-        <div class="container">
+        <div class="container" >
 
     <div class="row">
 
         <div class="col-md-6">
             <h1><?php echo  $store->title;?></h1>
+
+            <div class="row">
+                <div >
+                <img src=<?php echo $weather['icon_path'];?> alt="<?php echo $weather['weather_description'];?>" width="50" height="50">
+                </div>
+                <div>
+                    <h5><?php echo round($weather['deg']);?>°C </h5>
+                    <h5><?php echo $weather['weather_description'];?></h5>
+                </div>
+            </div>
+
         </div>
 
     </div>
 
 
     <!--store's data-->
-    <div>
-        <div>
+    <div >
+        <div >
             active :
         <?php if($store->active == 1):?>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
@@ -69,7 +80,6 @@ $store_properties = array(
                 <?php endif;?>
             </div>
         <?php endforeach?>
-
     </div>
         <!--store's categories-->
         <?php if(count($categories) > 0):?>

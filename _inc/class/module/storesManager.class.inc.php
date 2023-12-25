@@ -111,6 +111,42 @@ class storesManager{
         return $categories;
         
     }
+
+    public function getWeather() {
+
+        $city_name = $this->title;
+        $lang=(isset($_SESSION['lang']) && ($_SESSION['lang'])) ? $_SESSION['lang'] : default_lang;
+        $appid = 'f2cc8d2bbe780c1aa16ff0d9de39d437';
+        $url = 'https://api.openweathermap.org/data/2.5/weather?lang=' . $lang . '&q=' . $city_name . '&appid=' . $appid;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        if ($response === false) {
+            die('cURL Error: ' . curl_error($ch));
+        }
+
+        curl_close($ch);
+
+        // Decode the JSON response to a PHP array.
+        $data = json_decode($response, true);
+        $res = [];
+        if (!$data) {
+            die("<pre>" .print_r(array('Error decoding JSON data.' , 'Here: ' . __LINE__ . ' at ' . __FILE__) ,true) ."</pre>");
+        } else {
+//            die("<pre>" .print_r(array($data , 'Here: ' . __LINE__ . ' at ' . __FILE__) ,true) ."</pre>");
+            //Temperature in Celsius = Temperature in Kelvin−273.15
+            // Temperature in Kelvin is $data['temp']
+            $res['deg'] = $data['main']['temp'] - 273.15;
+            $res['weather_title'] = $data['weather'][0]['main'];
+            $res['weather_description'] = $data['weather'][0]['description'];
+            $res['icon_path'] = "https://openweathermap.org/img/wn/" .  $data['weather'][0]['icon'] . "@2x.png";
+        }
+
+        return $res;
+
+    }
 }
 
 ?>
