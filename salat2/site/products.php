@@ -186,11 +186,11 @@ if ($act == 'new') {
     if ($_Proccess_Has_MultiLangs) {
         $query = "DELETE FROM `{$_Proccess_Main_DB_Table}_lang` WHERE `obj_id`='{$obj_id}' AND `lang_id`='{$module_lang_id}'";
         // delete language static file !!!
-        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/tmpl/' . get_item_dir($obj_id) . '/' . $languagesArr[$module_lang_id]['title'] . '/tmpl-' . $obj_id . '.inc.php');
+        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/products/' . get_item_dir($obj_id) . '/' . $languagesArr[$module_lang_id]['title'] . '/tmpl-' . $obj_id . '.inc.php');
     } else {
         $query = "DELETE FROM {$_Proccess_Main_DB_Table} WHERE id='{$obj_id}'";
         // delete static file !!!
-        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/tmpl/' . get_item_dir($obj_id) . '/tmpl-' . $obj_id . '.inc.php');
+        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/products/' . get_item_dir($obj_id) . '/product-' . $obj_id . '.inc.php');
     }
     $result = $Db->query($query);
 

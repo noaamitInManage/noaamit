@@ -1841,6 +1841,7 @@ class apiManager extends BaseApiManager
      */
     public function sendContact()
     {
+
         $topic_id = (isset($_REQUEST["topicId"])) ? siteFunctions::safe_value($_REQUEST["topicId"], "number") : 0;
         $message = (isset($_REQUEST["message"])) ? siteFunctions::safe_value($_REQUEST["message"], "text") : "";
 
@@ -1867,6 +1868,33 @@ class apiManager extends BaseApiManager
             default:
                 return $this->build_response(1);
         }
+    }
+
+    /*----------------------------------------------------------------------------------*/
+    public function sendNewContact()
+    {
+        $full_name = (isset($_REQUEST["full_name"])) ? siteFunctions::safe_value($_REQUEST["full_name"], "text") : "";
+        $message = (isset($_REQUEST["message"])) ? siteFunctions::safe_value($_REQUEST["message"], "text") : "";
+        $title = (isset($_REQUEST["title"])) ? siteFunctions::safe_value($_REQUEST["title"], "text") : "";
+        $email = (isset($_REQUEST["email"])) ? siteFunctions::safe_value($_REQUEST["email"], "text") : "";
+
+        $data['full_name'] = $full_name;
+        $data['message'] = $message;
+        $data['title'] = $title;
+        $data['email'] = $email;
+
+        $res = contactsManager::send($data);
+
+        if (!$res) {
+            return $this->build_response(0, 155);
+        }
+
+        switch ($this->version) {
+            case '1.0':
+            default:
+                return $this->build_response(1);
+        }
+
     }
 
     /*----------------------------------------------------------------------------------*/

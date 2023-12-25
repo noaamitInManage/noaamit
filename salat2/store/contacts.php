@@ -1,10 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 include_once("../_inc/config.inc.php");
 
 $this_dir = basename(dirname(__FILE__));
 
 $_ProcessID = get_module_id(basename(__FILE__), $this_dir); // 05/10/11
-
 
 if ($langID == '') $langID = $_SESSION['salatLangID'];
 include_once($_project_server_path . $_salat_path . "_static/langs/processes/" . $_ProcessID . "." . $langID . ".inc.php");
@@ -26,7 +27,7 @@ require_once($_project_server_path . $_salat_path . $this_dir . "/modules_fields
 include_once($_SERVER["DOCUMENT_ROOT"] . "/_inc/autoloader.config.php");
 include_once($_project_server_path . $_includes_path . 'site.array.inc.php'); // 15/04/2011
 
-$_Proccess_Main_DB_Table = "tb_categories";
+$_Proccess_Main_DB_Table = "tb_contact";
 
 $_Proccess_Title = $all_modulesArr[$_ProcessID];
 
@@ -35,7 +36,7 @@ $_Proccess_Has_Ordering_Action = false;
 
 $_Proccess_Has_MetaTags = false;
 
-$_Proccess_Has_MultiLangs = true;
+$_Proccess_Has_MultiLangs = false;
 
 $_Proccess_Has_GenricSearch = false;
 /**
@@ -181,11 +182,11 @@ if ($act == 'new') {
     if ($_Proccess_Has_MultiLangs) {
         $query = "DELETE FROM `{$_Proccess_Main_DB_Table}_lang` WHERE `obj_id`='{$obj_id}' AND `lang_id`='{$module_lang_id}'";
         // delete language static file !!!
-        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/categories/' . get_item_dir($obj_id) . '/' . $languagesArr[$module_lang_id]['title'] . '/tmpl-' . $obj_id . '.inc.php');
+        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/contacts/' . get_item_dir($obj_id) . '/' . $languagesArr[$module_lang_id]['title'] . '/tmpl-' . $obj_id . '.inc.php');
     } else {
         $query = "DELETE FROM {$_Proccess_Main_DB_Table} WHERE id='{$obj_id}'";
         // delete static file !!!
-        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/categories/' . get_item_dir($obj_id) . '/category-' . $obj_id . '.inc.php');
+        @unlink($_SERVER['DOCUMENT_ROOT'] . '/_static/contacts/' . get_item_dir($obj_id) . '/contact-' . $obj_id . '.inc.php');
     }
     $result = $Db->query($query);
 
@@ -265,13 +266,13 @@ function module_updateStaticFiles()
 {
     global $_Proccess_Main_DB_Table, $_Proccess_Has_MultiLangs;
 
-        if($_Proccess_Has_MultiLangs){
-            $UpdateStatic = new categoriesLangsUpdateStaticFiles();
-            $UpdateStatic->updateStatics();
-        }else{
-            $UpdateStatic = new categoriesLangsUpdateStaticFiles();
-            $UpdateStatic->updateStatics();
-        }
+    if($_Proccess_Has_MultiLangs){
+        $UpdateStatic = new contactsUpdateStaticFiles();
+        $UpdateStatic->updateStatics();
+    }else{
+        $UpdateStatic = new contactsUpdateStaticFiles();
+        $UpdateStatic->updateStatics();
+    }
 
 }
 
@@ -336,32 +337,6 @@ include($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/module_info.inc.php');
        value="הוסף חדש"/>
 <div class="maindiv">
 
-
-
-<!-- add if if ($_Proccess_Has_GenricSearch)-->
-<!--        <br/>-->
-<!--        <div id="search_frm">-->
-<!--            <form action="" method="get" style="display:inline; font-size:12px; margin:0 auto;">-->
-<!--                <input type="hidden" name="act" value="show"/>-->
-<!--                <input type="hidden" name="dosearch" value="search"/>-->
-<!---->
-<!--                <table cellpadding="3" cellspacing="0" align="center">-->
-<!--                    <tr>-->
-<!---->
-<!--                        --><?//
-//                        foreach ($fieldsArr AS $key => $fieldArr) {
-//                            if ($fieldArr['input']['searchable'] == true) {
-//                                print "<td>" . $fieldArr['title'] . ":";
-//                                print draw_genric_search($fieldArr, $key) . "</td>";
-//                            }
-//                        }
-//                        ?>
-<!---->
-<!--                        <td><input type="submit" value="Search" class="buttons"/></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--            </form>-->
-<!--        </div>-->
 
     <? if ($_Proccess_Has_MultiLangs) { ?>
         <?= draw_module_tabs(); ?>

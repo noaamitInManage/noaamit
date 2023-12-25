@@ -17,6 +17,8 @@ $full_path =  $site_icon->path;
     <title><?php echo 'noaamit'; ?></title>
     <link rel="stylesheet" href="<?php echo '/_media';?>/css/_inc/header.css">
     <? include_once($_SERVER['DOCUMENT_ROOT'].'/_inc/layout/headers.inc.php'); ?>
+
+
 </head>
 <body>
 <?php require $_SERVER['DOCUMENT_ROOT'] . '/_modules/_inc/navbar.php'; ?>

@@ -13,7 +13,7 @@ if (!class_exists('moduleUpdateStaticFiles')) {
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/UpdateStaticFiles/categoriesLangsUpdateStaticFiles.class.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/UpdateStaticFiles/productsLangsUpdateStaticFiles.class.php');
-
+include_once($_SERVER['DOCUMENT_ROOT'] . '/salat2/_inc/UpdateStaticFiles/contactsUpdateStaticFiles.class.php');
 //include_once($_project_server_path . $_includes_path . 'class/Csrf.class.inc.php');//Csrf
 //include_once($_project_server_path . $_includes_path . 'class/BaseManager.class.inc.php');//BaseManager
 //include_once($_project_server_path . $_includes_path . 'class/MetaTagsManager.class.inc.php');//MetaTags
